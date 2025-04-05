@@ -97,7 +97,7 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
           <Button
             onClick={handleVerification}
             disabled={isLoading || isSuccess}
-            className="w-full bg-dating-purple hover:bg-dating-purple/90 h-12 text-base"
+            className="w-full bg-gradient-to-r from-dating-purple to-dating-pink hover:bg-dating-purple/90 h-12 text-base"
           >
             {isLoading ? LOADING_TEXT : BUTTON_TEXT}
           </Button>
