@@ -1,14 +1,15 @@
 'use client'
 
-import { Heart, MessageCircle, User, Settings } from "lucide-react"
+import { Heart, MessageCircle, User, Settings , Crown} from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useEffect } from "react"
 
 const navItems = [
   { path: "/swipe", icon: Heart, label: "Discover" },
-  { path: "/matches", icon: MessageCircle, label: "Matches" },
+  { path: "/chat", icon: MessageCircle, label: "Chat" },
   { path: "/profile", icon: User, label: "Profile" },
+  { path: "/purchased-features", icon: Crown, label: "Premium" },
   { path: "/settings", icon: Settings, label: "Settings" },
 ]
 

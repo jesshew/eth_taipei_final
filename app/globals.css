@@ -152,3 +152,97 @@
     }
   }
 }
+
+/* Typing indicator animation */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.typing-indicator-dot {
+  width: 8px;
+  height: 8px;
+  background: #a3a3a3;
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out;
+}
+
+.typing-indicator-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Dating app specific gradients and animations */
+.dating-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+@keyframes pulse-heart {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-pulse-heart {
+  animation: pulse-heart 1.5s infinite ease-in-out;
+}
+
+@keyframes swipe-left {
+  to {
+    transform: translateX(-150%) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swipe-right {
+  to {
+    transform: translateX(150%) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+.animate-swipe-left {
+  animation: swipe-left 0.5s ease-out forwards;
+}
+
+.animate-swipe-right {
+  animation: swipe-right 0.5s ease-out forwards;
+}
+
+@keyframes match-popup {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-match-popup {
+  animation: match-popup 0.3s ease-out forwards;
+}
