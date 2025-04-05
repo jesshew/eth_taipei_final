@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { CardContent } from '@/components/ui/card'
 import { Card } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'  // Replace the router import
-import { signAndVerifyMessage } from '@/lib/worldcoin'
+// import { WalletConnect } from '@/components/WalletConnect'
 // Mock user data - in a real app, this would come from your backend
 const userProfile = {
   name: 'Emily',
@@ -43,7 +43,7 @@ const userProfile = {
 
 export default function ProfilePage() {
   const [activePhotoIndex, setActivePhotoIndex] = useState(0)
-  const router = useRouter()  // Initialize the router hook
+  const router = useRouter()
 
   return (
     <NavigationLayout>
@@ -53,7 +53,8 @@ export default function ProfilePage() {
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-dating-purple to-dating-pink">
             My Profile
           </h1>
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            {/* <WalletConnect /> */}
             <div className="flex items-center">
               <Button 
                 variant="ghost" 
@@ -72,8 +73,6 @@ export default function ProfilePage() {
                 <Edit2 className="h-5 w-5" />
               </Button>
             </div>
-
-            
           </div>
         </header>
         {/* Profile Header */}

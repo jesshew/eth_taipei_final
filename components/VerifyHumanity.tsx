@@ -4,6 +4,7 @@ import { verifyUser } from '@/lib/worldcoin';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Shield, CheckCircle2, XCircle, Heart, UserCheck, Users } from "lucide-react";
+import { WalletConnect } from '@/components/WalletConnect';
 
 // Constants for customization and reusability
 const APP_NAME = 'MINI AMOR';
@@ -99,7 +100,7 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
         
         <h2 className="text-3xl font-semibold mb-4 tracking-tight">{TAGLINE}</h2>
         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">{DESCRIPTION}</p>
-        
+        <WalletConnect />
         {/* Verification Card - Moved Up After Taglines */}
         <Card className="max-w-md mx-auto bg-background/80 backdrop-blur-lg border border-dating-purple/20 overflow-hidden mb-8">
           <div className="h-2 bg-gradient-to-r from-dating-purple to-dating-pink" />

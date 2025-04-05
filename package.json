@@ -41,6 +41,8 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@safe-global/protocol-kit": "^6.0.2",
     "@safe-global/safe-core-sdk": "^3.3.5",
+    "@tanstack/react-query": "^5.71.10",
+    "@web3modal/wagmi": "^5.1.11",
     "@worldcoin/minikit-js": "^1.8.0",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
@@ -65,6 +67,7 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
     "viem": "^2.25.0",
+    "wagmi": "^2.14.16",
     "zod": "^3.24.1"
   },
   "devDependencies": {
