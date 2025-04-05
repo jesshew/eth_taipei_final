@@ -65,4 +65,4 @@ export const mockMessages: { [key: string]: Message[] } = {
       isRead: true,
     },
   ],
-}; 
+};
