@@ -166,7 +166,7 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
             "MINI AMOR has completely changed the way I approach online dating. 
             No more wasted time on fake profiles — just real connections."
           </p>
-          <p className="text-xs mt-1 font-medium">— Satisfied User</p>
+          <p className="text-xs mt-1 font-medium">— Our *Only* User, Emily</p>
         </div>
       </div>
     </div>

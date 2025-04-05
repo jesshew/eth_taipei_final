@@ -186,10 +186,10 @@ export const mockMatches: Match[] = [
     userId: "user-123",
     matchedUserId: "profile-1",
     matchedUser: mockProfiles[0],
-    createdAt: "2023-05-15T14:30:00Z",
+    createdAt: "2025-04-04T14:30:00Z",
     lastMessage: {
       text: "When are we going on that hike you mentioned?",
-      timestamp: "2023-06-01T09:12:34Z",
+      timestamp: "2025-04-06T09:12:34Z",
       isRead: true,
     },
   },
@@ -198,10 +198,10 @@ export const mockMatches: Match[] = [
     userId: "user-123",
     matchedUserId: "profile-2",
     matchedUser: mockProfiles[1],
-    createdAt: "2023-05-20T11:15:00Z",
+    createdAt: "2025-04-04T11:15:00Z",
     lastMessage: {
       text: "I tried that recipe you sent, it was amazing!",
-      timestamp: "2023-05-30T18:45:21Z",
+      timestamp: "2025-04-05T18:45:21Z",
       isRead: false,
     },
   },
@@ -210,7 +210,7 @@ export const mockMatches: Match[] = [
     userId: "user-123",
     matchedUserId: "profile-3",
     matchedUser: mockProfiles[2],
-    createdAt: "2023-06-01T09:45:00Z",
+    createdAt: "2025-04-06T09:45:00Z",
   },
 ];
 
@@ -222,7 +222,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "user-123",
       text: "Hey Sam! Loved your hiking photos. Any favorite trails nearby?",
-      timestamp: "2023-05-15T14:35:00Z",
+      timestamp: "2025-04-04T14:35:00Z",
       isRead: true,
     },
     {
@@ -230,7 +230,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "profile-1",
       text: "Hi Alex! Yes, I love the Lands End trail - amazing views of the Golden Gate!",
-      timestamp: "2023-05-15T14:40:00Z",
+      timestamp: "2025-04-04T14:40:00Z",
       isRead: true,
     },
     {
@@ -238,7 +238,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "user-123",
       text: "That sounds perfect! I've been wanting to check it out.",
-      timestamp: "2023-05-15T14:45:00Z",
+      timestamp: "2025-04-04T14:45:00Z",
       isRead: true,
     },
     {
@@ -246,7 +246,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "profile-1",
       text: "We should go sometime! The sunset views are incredible.",
-      timestamp: "2023-05-15T14:50:00Z",
+      timestamp: "2025-04-04T14:50:00Z",
       isRead: true,
     },
     {
@@ -254,7 +254,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "user-123",
       text: "I'd love that! Are you free this weekend?",
-      timestamp: "2023-05-15T14:55:00Z",
+      timestamp: "2025-04-04T14:55:00Z",
       isRead: true,
     },
     {
@@ -262,7 +262,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "profile-1",
       text: "Saturday afternoon works for me!",
-      timestamp: "2023-05-15T15:00:00Z",
+      timestamp: "2025-04-04T15:00:00Z",
       isRead: true,
     },
     {
@@ -270,7 +270,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-1",
       senderId: "profile-1",
       text: "When are we going on that hike you mentioned?",
-      timestamp: "2023-06-01T09:12:34Z",
+      timestamp: "2025-04-06T09:12:34Z",
       isRead: true,
     },
   ],
@@ -280,7 +280,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-2",
       senderId: "profile-2",
       text: "So, I hear you're into coding too? What languages do you work with?",
-      timestamp: "2023-05-20T11:20:00Z",
+      timestamp: "2025-04-04T11:20:00Z",
       isRead: true,
     },
     {
@@ -288,7 +288,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-2",
       senderId: "user-123",
       text: "Mostly TypeScript and Python these days. How about you?",
-      timestamp: "2023-05-20T11:25:00Z",
+      timestamp: "2025-04-04T11:25:00Z",
       isRead: true,
     },
     {
@@ -296,7 +296,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-2",
       senderId: "profile-2",
       text: "Nice! I'm a full-stack dev, so a bit of everything. But mainly React and Node.",
-      timestamp: "2023-05-20T11:30:00Z",
+      timestamp: "2025-04-04T11:30:00Z",
       isRead: true,
     },
     {
@@ -304,7 +304,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-2",
       senderId: "user-123",
       text: "Cool! I've been getting more into React lately. By the way, you mentioned you like cooking - any recipe recommendations?",
-      timestamp: "2023-05-20T11:35:00Z",
+      timestamp: "2025-04-04T11:35:00Z",
       isRead: true,
     },
     {
@@ -312,7 +312,7 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-2",
       senderId: "profile-2",
       text: "I make an amazing pasta carbonara - super simple but delicious. I'll send you the recipe!",
-      timestamp: "2023-05-20T11:40:00Z",
+      timestamp: "2025-04-04T11:40:00Z",
       isRead: true,
     },
     {
@@ -320,11 +320,12 @@ export const mockMessages: Record<string, Message[]> = {
       matchId: "match-2",
       senderId: "user-123",
       text: "I tried that recipe you sent, it was amazing!",
-      timestamp: "2023-05-30T18:45:21Z",
+      timestamp: "2025-04-05T18:45:21Z",
       isRead: false,
     },
   ],
 };
+
 
 // Premium Features
 export interface PremiumFeature {

@@ -64,10 +64,10 @@ export default function MatchesPage() {
                       ? formatDistanceToNow(
                           new Date(match.lastMessage.timestamp),
                           { addSuffix: true }
-                        )
+                        ).replace('in ', '')
                       : formatDistanceToNow(new Date(match.createdAt), {
                           addSuffix: true,
-                        })}
+                        }).replace('in ', '')}
                   </span>
                 </div>
 

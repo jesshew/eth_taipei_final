@@ -252,7 +252,7 @@ export default function ChatPage() {
                   >
                     {formatDistanceToNow(new Date(message.timestamp), {
                       addSuffix: true,
-                    })}
+                    }).replace('in ', '')}
                   </div>
                 </div>
               </div>

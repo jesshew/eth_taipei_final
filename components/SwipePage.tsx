@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState, useRef, useEffect, TouchEvent } from "react";
 import { ChevronDown, X, Heart, Star, Undo } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -8,9 +6,6 @@ import { mockProfiles, Profile } from "@/data/mockData";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { NavigationLayout } from '@/components/NavigationLayout'
-import { useRouter } from 'next/navigation'  // Replace the router import
-
 
 export const SwipePage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,7 +15,7 @@ export const SwipePage: React.FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const router = useRouter();
+
   // Touch gesture states
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
@@ -37,7 +32,7 @@ export const SwipePage: React.FC = () => {
     setDirection(liked ? "right" : "left");
     
     // Simulate 30% chance of match if liked
-    const isMatch = liked && Math.random() < 0.6;
+    const isMatch = liked && Math.random() < 0.3;
     
     setTimeout(() => {
       if (isMatch) {
@@ -64,7 +59,7 @@ export const SwipePage: React.FC = () => {
     });
     
     // Higher chance of match with super like
-    const isMatch = Math.random() < 0.8;
+    const isMatch = Math.random() < 0.6;
     
     if (isMatch) {
       setMatchedProfile(currentProfile);
@@ -205,10 +200,9 @@ export const SwipePage: React.FC = () => {
   }, [isMouseDown, touchEnd.x, touchStart.x]);
 
   return (
-    <div className="flex flex-col h-[100vh]">
-      {/* Fixed Header */}
-      <header className="flex justify-between items-center p-4 bg-white">
-        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-dating-purple to-dating-pink">
+    <div className="relative h-full pt-4 px-4 pb-20">
+      <header className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent dating-gradient">
           Discover
         </h1>
         <Button 
@@ -218,110 +212,114 @@ export const SwipePage: React.FC = () => {
           onClick={() => toast({
             title: "Filters",
             description: "Filter functionality will be available in the next version!",
-          })
-        }
-        disabled={true}
+          })}
         >
           Filters <ChevronDown className="ml-1 h-4 w-4" />
         </Button>
       </header>
 
-      {/* Scrollable Profile Card Area */}
-      <div className="flex-1 overflow-hidden px-4">
-        <div className="h-[80vh]">
-          {/* Profile Card */}
+      {/* Profile Card with Scrollable Content */}
+      <div 
+        ref={cardRef}
+        className={`profile-card overflow-hidden ${
+          direction === "left" 
+            ? "animate-swipe-left" 
+            : direction === "right" 
+            ? "animate-swipe-right" 
+            : ""
+        }`}
+        style={{
+          transform: isSwiping ? `translateX(${swipeOffset}px) rotate(${swipeOffset * 0.03}deg)` : '',
+          transition: isSwiping ? 'none' : 'transform 0.3s ease',
+          cursor: isMouseDown ? 'grabbing' : 'grab'
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
+        <div className="h-full overflow-y-auto">
+          {/* Profile Image Section */}
           <div 
-            ref={cardRef}
-            className={`profile-card h-full rounded-xl shadow-lg ${
-              direction === "left" 
-                ? "animate-swipe-left" 
-                : direction === "right" 
-                ? "animate-swipe-right" 
-                : ""
-            }`}
+            className="relative h-[60vh] min-h-[400px]"
             style={{
-              transform: isSwiping ? `translateX(${swipeOffset}px) rotate(${swipeOffset * 0.03}deg)` : '',
-              transition: isSwiping ? 'none' : 'transform 0.3s ease',
-              cursor: isMouseDown ? 'grabbing' : 'grab'
+              backgroundImage: `url(${currentProfile.photos[0]})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
           >
-            {/* Profile Content - Make this section scrollable */}
-            <div className="h-full overflow-y-auto">
-              {/* Profile Image Section */}
-              <div 
-                className="relative h-[60vh] min-h-[400px] flex-shrink-0"
-                style={{
-                  backgroundImage: `url(${currentProfile.photos[0]})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                {/* Gradient overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-                {/* Basic Profile Info */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h2 className="text-3xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
-                      <p className="text-sm opacity-90">{currentProfile.location} • {currentProfile.distance} miles away</p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-10 w-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSuperLike();
-                      }}
-                    >
-                      <Star className="h-5 w-5" />
-                    </Button>
-                  </div>
-                </div>
+            {/* Basic Profile Info */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+              <div>
+                <h2 className="text-3xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
+                <p className="text-sm opacity-90">{currentProfile.location} • {currentProfile.distance} miles away</p>
               </div>
+            </div>
+          </div>
 
-              {/* Scrollable Profile Details Section */}
-              <div className="bg-white p-4">
-                <p className="text-gray-800 text-lg mb-4">{currentProfile.bio}</p>
-                
-                <div className="flex flex-wrap gap-2 my-4">
-                  {currentProfile.interests.map((interest, index) => (
-                    <Badge key={index} variant="secondary" className="bg-gray-100 text-gray-800">
-                      {interest}
-                    </Badge>
-                  ))}
-                </div>
+          {/* Scrollable Profile Details Section */}
+          <div className="bg-white p-4">
+            <p className="text-gray-800 text-lg mb-4">{currentProfile.bio}</p>
+            
+            <div className="flex flex-wrap gap-2 my-4">
+              {currentProfile.interests.map((interest, index) => (
+                <Badge key={index} variant="secondary" className="bg-gray-100 text-gray-800">
+                  {interest}
+                </Badge>
+              ))}
+            </div>
 
-                <div className="space-y-4">
-                  {currentProfile.prompts.map((prompt, index) => (
-                    <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm font-bold text-gray-700">{prompt.question}</p>
-                      <p className="text-gray-600 mt-2">{prompt.answer}</p>
-                    </div>
-                  ))}
+            <div className="space-y-4">
+              {currentProfile.prompts.map((prompt, index) => (
+                <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm font-bold text-gray-700">{prompt.question}</p>
+                  <p className="text-gray-600 mt-2">{prompt.answer}</p>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Fixed Bottom Section */}
-      <div className="bg-white px-4 py-2">
-        {/* Swipe Instruction (only shown on mobile) */}
-        {isMobile && (
-          <div className="text-center text-sm text-gray-500 mb-2 animate-pulse">
-            Swipe right to like, left to pass
-          </div>
-        )}
-      </div>
+      {/* Swipe Instruction (only shown on mobile) */}
+      {isMobile && (
+        <div className="text-center text-sm text-gray-500 mt-4 animate-pulse">
+          Swipe right to like, left to pass
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      {/* <div className="profile-actions">
+        <button
+          className="action-button w-14 h-14 bg-white text-dating-red border-2 border-dating-red"
+          onClick={() => handleSwipe(false)}
+        >
+          <X className="h-8 w-8 text-dating-red" />
+        </button>
+        <button
+          className="action-button w-12 h-12 bg-white text-yellow-500 border-2 border-yellow-500"
+          onClick={handleRewind}
+        >
+          <Undo className="h-6 w-6 text-yellow-500" />
+        </button>
+        <button
+          className="action-button w-12 h-12 bg-white text-blue-500 border-2 border-blue-500"
+          onClick={handleSuperLike}
+        >
+          <Star className="h-6 w-6 text-blue-500" />
+        </button>
+        <button
+          className="action-button w-14 h-14 bg-white text-dating-green border-2 border-dating-green"
+          onClick={() => handleSwipe(true)}
+        >
+          <Heart className="h-8 w-8 text-dating-green" />
+        </button>
+      </div> */}
 
       {/* Match Dialog */}
       <Dialog open={showMatch} onOpenChange={setShowMatch}>
@@ -339,7 +337,8 @@ export const SwipePage: React.FC = () => {
           <div className="flex justify-center space-x-4 my-6">
             <div className="h-24 w-24 rounded-full border-4 border-white overflow-hidden">
               <img 
-                src='https://img.freepik.com/free-photo/beautiful-asian-girl-sitting-cafe-with-cup-coffee-drawing-digital-tablet-with-graphic-pen-d_1258-120146.jpg?t=st=1743866366~exp=1743869966~hmac=a96e953b960fd017d15f0c504601cdc28768467dca108b03a56df187b5045cda&w=826'
+                src="https://source.unsplash.com/random/300×300/?portrait" 
+                alt="Your profile" 
                 className="h-full w-full object-cover"
               />
             </div>
@@ -363,7 +362,7 @@ export const SwipePage: React.FC = () => {
               className="flex-1 bg-white hover:bg-gray-100 text-dating-purple"
               onClick={() => {
                 setShowMatch(false);
-                router.push('/matches'); // Navigate to matches page
+                // Would navigate to chat in a full implementation
               }}
             >
               Send Message
@@ -375,10 +374,4 @@ export const SwipePage: React.FC = () => {
   );
 };
 
-export default function SwipePageWrapper() {
-  return (
-    <NavigationLayout>
-      <SwipePage />
-    </NavigationLayout>
-  )
-}
+export default SwipePage;
