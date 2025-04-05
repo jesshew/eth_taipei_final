@@ -85,7 +85,7 @@ const StickerPicker: React.FC<StickerPickerProps> = ({ onSelect }) => {
               Cancel
             </Button>
             <Button
-              className="dating-gradient"
+              className="mb-1 text bg-gradient-to-r from-dating-purple to-dating-pink"
               onClick={handlePurchase}
             >
               Purchase & Send

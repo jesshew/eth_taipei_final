@@ -8,7 +8,6 @@ import { useEffect } from "react";
 const navItems = [
   { path: "/swipe", icon: Heart, label: "Discover" },
   { path: "/matches", icon: MessageCircle, label: "Matches" },
-  { path: "/chat", icon: MessageCircle, label: "Chat" },
   { path: "/profile", icon: User, label: "Profile" },
   { path: "/purchased-features", icon: Crown, label: "Premium" },
   { path: "/settings", icon: Settings, label: "Settings" },

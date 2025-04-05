@@ -55,7 +55,7 @@ export default function ProfilePage() {
     <NavigationLayout>
       <div className="h-full p-4 mb-16">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold bg-clip-text text-transparent dating-gradient">
+          <h1 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-dating-purple to-dating-pink">
             Profile
           </h1>
           <Button

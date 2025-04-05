@@ -337,7 +337,7 @@ export default function ChatPage() {
             <Button
               type="submit"
               size="icon"
-              className="rounded-full dating-gradient hover:opacity-90"
+              className="rounded-full text-2xl bg-gradient-to-r from-dating-purple to-dating-pink hover:opacity-90"
               disabled={!newMessage.trim()}
             >
               <Send className="h-4 w-4" />
