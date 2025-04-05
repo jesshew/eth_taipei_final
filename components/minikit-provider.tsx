@@ -7,7 +7,7 @@ export default function MiniKitProvider({ children }: { children: ReactNode }) {
 	useEffect(() => {
 		// Passing appId in the install is optional
 		// but allows you to access it later via `window.MiniKit.appId`
-		MiniKit.install('app_50958e9131e6f503cbd90df6817e5d58');
+		MiniKit.install('app_7d9479b0459e77d4fad4d5cf5ddb7cc3');
 	}, [])
 
 	return <>{children}</>
