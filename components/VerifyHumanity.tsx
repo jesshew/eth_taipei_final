@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { verifyUser } from '@/lib/worldcoin';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Shield, CheckCircle2, XCircle } from "lucide-react";
 
 // Constants for customization and reusability
@@ -11,7 +11,7 @@ const DESCRIPTION = 'To protect our community and ensure real connections, pleas
 const BUTTON_TEXT = 'Verify with World ID';
 const ERROR_MESSAGE = 'Verification failed. Please try again.';
 const LOADING_TEXT = 'Verifying...';
-const SUCCESS_MESSAGE = 'Verification successful! You can now continue using the app.';
+const SUCCESS_MESSAGE = 'Verification successful! Redirecting you to the app...';
 
 interface VerifyHumanityProps {
   onVerificationSuccess?: () => void;
@@ -31,10 +31,10 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
   onVerificationSuccess,
   onVerificationError
 }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
 
   const handleVerification = async () => {
     setIsLoading(true);
@@ -46,6 +46,10 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
       if (result.isSuccess) {
         setIsSuccess(true);
         onVerificationSuccess?.();
+        // Redirect to main page after a short delay to show success message
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
       } else {
         const errorMessage = result.error || ERROR_MESSAGE;
         setError(errorMessage);
@@ -60,36 +64,32 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
     }
   };
 
-  const handleClose = () => {
-    if (isSuccess) {
-      setIsOpen(false);
-    }
-  };
-
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <div className="mx-auto mb-4 h-12 w-12 text-dating-purple">
-            <Shield className="h-12 w-12" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center space-y-6">
+          <div className="mx-auto h-16 w-16 text-dating-purple">
+            <Shield className="h-16 w-16" />
           </div>
-          <DialogTitle className="text-center text-2xl font-bold">{TITLE}</DialogTitle>
-          <DialogDescription className="text-center">
-            {DESCRIPTION}
-          </DialogDescription>
-        </DialogHeader>
+          <div className="space-y-2">
+            <CardTitle className="text-2xl font-bold">{TITLE}</CardTitle>
+            <CardDescription className="text-base">
+              {DESCRIPTION}
+            </CardDescription>
+          </div>
+        </CardHeader>
 
-        <div className="flex flex-col items-center space-y-4 py-4">
+        <CardContent className="space-y-4">
           {error && (
-            <div className="flex items-center space-x-2 text-red-500">
-              <XCircle className="h-5 w-5" />
+            <div className="flex items-center space-x-2 text-red-500 bg-red-50 p-3 rounded-lg">
+              <XCircle className="h-5 w-5 flex-shrink-0" />
               <p className="text-sm">{error}</p>
             </div>
           )}
 
           {isSuccess && (
-            <div className="flex items-center space-x-2 text-green-500">
-              <CheckCircle2 className="h-5 w-5" />
+            <div className="flex items-center space-x-2 text-green-500 bg-green-50 p-3 rounded-lg">
+              <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
               <p className="text-sm">{SUCCESS_MESSAGE}</p>
             </div>
           )}
@@ -97,23 +97,13 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
           <Button
             onClick={handleVerification}
             disabled={isLoading || isSuccess}
-            className="w-full bg-dating-purple hover:bg-dating-purple/90"
+            className="w-full bg-dating-purple hover:bg-dating-purple/90 h-12 text-base"
           >
             {isLoading ? LOADING_TEXT : BUTTON_TEXT}
           </Button>
-
-          {isSuccess && (
-            <Button
-              onClick={handleClose}
-              variant="outline"
-              className="w-full"
-            >
-              Continue
-            </Button>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

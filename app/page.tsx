@@ -36,14 +36,11 @@ export default function Home() {
     setAppId(id);
   };
 
-  const handleVerify = async () => {
-    const result = await verifyUser();
-    if (result.isSuccess) {
-      setIsVerified(true);
-      sendHapticFeedback();
-      console.log('Verification success!');
-    }
-  }
+  const handleVerificationSuccess = () => {
+    setIsVerified(true);
+    sendHapticFeedback();
+    console.log('Verification successful');
+  };
 
   const handleUnverify = () => {
     setIsVerified(false);
@@ -51,12 +48,6 @@ export default function Home() {
     console.log('User unverified');
   };
 
-  const handleVerificationSuccess = () => {
-    // Handle successful verification
-    // For example, redirect to the next step or update user state
-    sendHapticFeedback();
-    console.log('Verification successful');
-  };
 
   const handleVerificationError = (error: string) => {
     // Handle verification error
@@ -64,19 +55,15 @@ export default function Home() {
     console.error('Verification failed:', error);
   };
 
-  return (
-    <div className="flex min-h-screen flex-col">
+  // Only render the main content if verified
+  const renderContent = () => (
+    <>
       <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
           <div className="mr-4 flex">
-            {/* <SwipePage /> */}
-            <VerifyHumanity 
-              onVerificationSuccess={handleVerificationSuccess}
-              onVerificationError={handleVerificationError}
-            />
             <Link href="/" className="flex items-center space-x-2">
               <Heart className="h-6 w-6 text-pink-500" />
-              <span className="font-bold text-xl">DateMe</span>
+              <span className="font-bold text-xl">MiniAmor</span>
             </Link>
           </div>
           <div className="flex flex-1 items-center justify-end space-x-2">
@@ -105,12 +92,12 @@ export default function Home() {
           <div className="mx-auto max-w-md">
             <ProfileCard profile={profiles[0]} />
             <div className="space-y-2">
-              <Button onClick={() => { if (!isVerified) handleVerify(); }}>
+              {/* <Button onClick={() => { if (!isVerified) handleVerify(); }}>
                 {isVerified ? "Verified" : "Verify"}
               </Button>
               <Button onClick={handleUnverify} className="w-full">
                 Unverify
-              </Button>
+              </Button> */}
               <Button onClick={handleGetAppId} className="w-full">
                 Get App ID
               </Button>
@@ -126,7 +113,20 @@ export default function Home() {
           </div>
         </section>
       </main>
+    </>
+  );
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      {!isVerified ? (
+        <VerifyHumanity 
+          onVerificationSuccess={handleVerificationSuccess}
+          onVerificationError={handleVerificationError}
+        />
+      ) : (
+        renderContent()
+      )}
     </div>
-  )
+  );
 }
 
