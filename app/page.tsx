@@ -17,6 +17,7 @@ import {
   sendSuccessNotification 
 } from "@/lib/worldcoin"
 import VerifyHumanity from "@/components/VerifyHumanity"
+import { BottomNav } from "@/components/BottomNav"
 
 export default function Home() {
   const [isVerified, setIsVerified] = useState(false);
@@ -122,6 +123,7 @@ export default function Home() {
       <Button onClick={handleUnverify} className="w-full">
         Unverify
       </Button>
+      <BottomNav />
     </>
   )
 
