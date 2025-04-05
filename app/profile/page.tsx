@@ -1,149 +1,201 @@
- 'use client'
+"use client";
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { Camera, Edit2, MapPin, Settings } from 'lucide-react'
-import { NavigationLayout } from '@/components/NavigationLayout'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { useState } from "react";
+import Image from "next/image";
+import {
+  Camera,
+  ChevronRight,
+  Crown,
+  Edit,
+  Edit2,
+  MapPin,
+  Settings,
+} from "lucide-react";
+import { NavigationLayout } from "@/components/NavigationLayout";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 // Mock user data - in a real app, this would come from your backend
-const userProfile = {
-  name: 'Jessica',
+const user = {
+  name: "Jessica",
   age: 28,
-  location: 'San Francisco, CA',
-  bio: 'Software engineer by day, amateur photographer by night. Looking for someone to explore the city with! 📸',
+  gender: "Female",
+  email: "jessica@gmail.com",
+  location: "San Francisco, CA",
+  bio: "Software engineer by day, amateur photographer by night. Looking for someone to explore the city with! 📸",
   photos: [
-    'https://source.unsplash.com/random/400x600/?portrait&woman&1',
-    'https://source.unsplash.com/random/400x600/?portrait&woman&2',
-    'https://source.unsplash.com/random/400x600/?portrait&woman&3',
+    "https://source.unsplash.com/random/400x600/?portrait&woman&1",
+    "https://source.unsplash.com/random/400x600/?portrait&woman&2",
+    "https://source.unsplash.com/random/400x600/?portrait&woman&3",
   ],
-  interests: [
-    'Photography',
-    'Hiking',
-    'Coffee',
-    'Travel',
-    'Tech',
-    'Art',
-  ],
+  photoUrl: ["https://source.unsplash.com/random/400x600/?portrait&woman&1"],
+  interests: ["Photography", "Hiking", "Coffee", "Travel", "Tech", "Art"],
+  isPremium: false,
   prompts: [
     {
-      question: 'A perfect day includes...',
-      answer: 'Morning coffee at a local cafe, hiking in the Marin Headlands, and ending with sunset photos at Baker Beach.'
+      question: "A perfect day includes...",
+      answer:
+        "Morning coffee at a local cafe, hiking in the Marin Headlands, and ending with sunset photos at Baker Beach.",
     },
     {
-      question: 'Best travel story',
-      answer: 'Getting lost in Tokyo and stumbling upon the most amazing ramen shop at 2 AM.'
-    }
-  ]
-}
+      question: "Best travel story",
+      answer:
+        "Getting lost in Tokyo and stumbling upon the most amazing ramen shop at 2 AM.",
+    },
+  ],
+};
 
 export default function ProfilePage() {
-  const [activePhotoIndex, setActivePhotoIndex] = useState(0)
-
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const router = useRouter();
+  
   return (
     <NavigationLayout>
-      <div className="flex flex-col min-h-screen pb-20">
-        {/* Profile Header */}
-        <div className="relative h-[70vh] min-h-[500px]">
-          <Image
-            src={userProfile.photos[activePhotoIndex]}
-            alt={`${userProfile.name}'s photo`}
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          
-          {/* Photo Navigation Dots */}
-          <div className="absolute top-4 left-0 right-0">
-            <div className="flex justify-center gap-2">
-              {userProfile.photos.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActivePhotoIndex(index)}
-                  className={`w-2 h-2 rounded-full ${
-                    index === activePhotoIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Edit Profile Button */}
+      <div className="h-full p-4 mb-16">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent dating-gradient">
+            Profile
+          </h1>
           <Button
-            size="icon"
             variant="ghost"
-            className="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white"
-            onClick={() => {/* TODO: Implement edit profile */}}
+            size="icon"
+            onClick={() => router.push("/settings")}
           >
-            <Edit2 className="h-5 w-5" />
+            <Settings className="h-5 w-5" />
           </Button>
+        </div>
 
-          {/* Profile Info */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <h1 className="text-3xl font-bold mb-2">
-              {userProfile.name}, {userProfile.age}
-            </h1>
-            <p className="flex items-center text-white/90 mb-4">
-              <MapPin className="h-4 w-4 mr-1" />
-              {userProfile.location}
-            </p>
+        <div className="relative mb-6">
+          <div className="h-48 rounded-xl overflow-hidden">
+            <img
+              src={
+                user.photos[0] ||
+                "https://source.unsplash.com/random/800x600/?landscape"
+              }
+              alt="Profile background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          </div>
+
+          <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
+            <div className="relative h-32 w-32 rounded-full border-4 border-white overflow-hidden bg-white shadow-lg">
+              <img
+                src={
+                  user.photos[0] ||
+                  "https://source.unsplash.com/random/300×300/?portrait"
+                }
+                alt={user.name}
+                className="h-full w-full object-cover"
+              />
+              <button
+                className="absolute bottom-0 right-0 bg-gray-100 rounded-full p-2 shadow-md"
+                aria-label="Change profile picture"
+              >
+                <Camera className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Profile Content */}
-        <div className="px-4 py-6 space-y-6">
-          {/* Bio Section */}
-          <section>
-            <h2 className="text-xl font-semibold mb-3">About</h2>
-            <p className="text-gray-600">{userProfile.bio}</p>
-          </section>
-
-          {/* Interests Section */}
-          <section>
-            <h2 className="text-xl font-semibold mb-3">Interests</h2>
-            <div className="flex flex-wrap gap-2">
-              {userProfile.interests.map((interest, index) => (
-                <Badge
-                  key={index}
-                  variant="secondary"
-                  className="bg-gray-100 text-gray-800"
-                >
-                  {interest}
-                </Badge>
-              ))}
-            </div>
-          </section>
-
-          {/* Prompts Section */}
-          <section>
-            <h2 className="text-xl font-semibold mb-3">Prompts</h2>
-            <div className="space-y-4">
-              {userProfile.prompts.map((prompt, index) => (
-                <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm font-bold text-gray-700 mb-2">
-                    {prompt.question}
-                  </p>
-                  <p className="text-gray-600">{prompt.answer}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Profile Actions */}
-          <section className="pt-4">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => {/* TODO: Implement edit photos */}}
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              Update Photos
-            </Button>
-          </section>
+        <div className="mt-16 text-center mb-6">
+          <div className="flex items-center justify-center">
+            <h2 className="text-2xl font-bold">
+              {user.name}, {user.age}
+            </h2>
+            {user.isPremium && (
+            <Badge className="ml-2 premium-badge text-white">
+              <Crown className="h-3 w-3 mr-1" /> Premium
+            </Badge>
+          )}
+          </div>
+          <Button
+            variant="outline"
+            className="mt-2"
+            size="sm"
+            onClick={() => router.push("/create-profile")}
+          >
+            <Edit className="h-3 w-3 mr-1" /> Edit Profile
+          </Button>
         </div>
+
+        <Card className="mb-4">
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium text-gray-500 mb-1">
+                  Gender
+                </h3>
+                <p>{user.gender}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500 mb-1">
+                  Looking for
+                </h3>
+                {/* <div className="flex flex-wrap gap-2">
+                {user.lookingFor.map((preference) => (
+                  <Badge key={preference} variant="outline">
+                    {preference}
+                  </Badge>
+                ))}
+              </div> */}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-4">
+          <CardContent className="pt-6">
+            <h3 className="text-sm font-medium text-gray-500 mb-2">Account</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center text-sm">
+                <span>Email</span>
+                <span className="text-gray-500">{user.email}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span>Account Type</span>
+                <span
+                  className={
+                    user.isPremium
+                      ? "text-amber-500 font-medium"
+                      : "text-gray-500"
+                  }
+                >
+                  {user.isPremium ? "Premium" : "Basic"}
+                </span>
+              </div>
+
+              <Button
+                variant="outline"
+                className="w-full justify-between"
+                onClick={() => router.push("/purchased-features")}
+              >
+                <span>My Premium Features</span>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+
+              {!user.isPremium && (
+                <Button
+                  className="w-full mt-2 premium-badge text-white"
+                  onClick={() => router.push("/premium")}
+                >
+                  <Crown className="h-4 w-4 mr-2" /> Upgrade to Premium
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+        {/* 
+      <Button 
+        variant="outline" 
+        onClick={logout} 
+        className="w-full text-gray-700"
+      >
+        <LogOut className="h-4 w-4 mr-2" /> Sign Out
+      </Button> */}
       </div>
     </NavigationLayout>
-  )
+  );
 }
