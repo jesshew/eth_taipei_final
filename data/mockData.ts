@@ -1,4 +1,3 @@
-
 // Types
 export interface Profile {
   id: string;
@@ -38,13 +37,14 @@ export interface Message {
   text: string;
   timestamp: string;
   isRead: boolean;
+  isSticker?: boolean;
 }
 
 // Mock Profiles
 export const mockProfiles: Profile[] = [
   {
     id: "profile-1",
-    name: "Jordan",
+    name: "Sam",
     age: 27,
     location: "San Francisco, CA",
     bio: "Coffee enthusiast, amateur photographer, and hiking addict. Looking for someone to share adventures with!",
@@ -221,7 +221,7 @@ export const mockMessages: Record<string, Message[]> = {
       id: "msg-1-1",
       matchId: "match-1",
       senderId: "user-123",
-      text: "Hey Jordan! Loved your hiking photos. Any favorite trails nearby?",
+      text: "Hey Sam! Loved your hiking photos. Any favorite trails nearby?",
       timestamp: "2023-05-15T14:35:00Z",
       isRead: true,
     },
