@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { verifyUser } from '@/lib/worldcoin';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Shield, CheckCircle2, XCircle, Heart, UserCheck, Users } from "lucide-react";
 import { WalletConnect } from '@/components/WalletConnect';
+import { useWallet } from '@/contexts/WalletContext';
+import { useVerification } from '@/contexts/verification-context';
 
 // Constants for customization and reusability
 const APP_NAME = 'MINI AMOR';
@@ -54,6 +56,18 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { isConnected } = useWallet();
+  const { setVerified } = useVerification();
+
+  useEffect(() => {
+    if (isConnected) {
+      setVerified(true);
+      onVerificationSuccess?.();
+      setTimeout(() => {
+        router.push('/');
+      }, 1500);
+    }
+  }, [isConnected, setVerified, onVerificationSuccess, router]);
 
   const handleVerification = async () => {
     setIsLoading(true);
@@ -100,7 +114,7 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
         
         <h2 className="text-3xl font-semibold mb-4 tracking-tight">{TAGLINE}</h2>
         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">{DESCRIPTION}</p>
-        <WalletConnect />
+
         {/* Verification Card - Moved Up After Taglines */}
         <Card className="max-w-md mx-auto bg-background/80 backdrop-blur-lg border border-dating-purple/20 overflow-hidden mb-8">
           <div className="h-2 bg-gradient-to-r from-dating-purple to-dating-pink" />
@@ -161,6 +175,35 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
           ))}
         </div>
 
+        <Card className="max-w-md mx-auto bg-background/80 backdrop-blur-lg border border-dating-purple/20 overflow-hidden mb-8">
+          <div className="h-2 bg-gradient-to-r from-dating-purple to-dating-pink" />
+          <CardContent className="pt-8 pb-8 space-y-6">
+            {error && (
+              <div className="flex items-center space-x-3 text-red-500 bg-red-50 p-4 rounded-xl">
+                <XCircle className="h-6 w-6 flex-shrink-0" />
+                <p>{error}</p>
+              </div>
+            )}
+
+            {isSuccess && (
+              <div className="flex items-center space-x-3 text-green-500 bg-green-50 p-4 rounded-xl">
+                <CheckCircle2 className="h-6 w-6 flex-shrink-0" />
+                <p>{SUCCESS_MESSAGE}</p>
+              </div>
+            )}
+
+            <div className="space-y-3">
+              <p className="text-center text-muted-foreground text-sm">
+                For on chain activity, connect your MetaMask wallet.              </p>
+              <WalletConnect />
+            
+
+            </div>
+          </CardContent>
+        </Card>
+
+
+
         {/* Subtle Testimonial */}
         <div className="mt-6 text-center max-w-lg mx-auto">
           <p className="text-xs italic text-muted-foreground">
@@ -171,6 +214,8 @@ export const VerifyHumanity: React.FC<VerifyHumanityProps> = ({
         </div>
       </div>
     </div>
+
+    
   );
 };
 
