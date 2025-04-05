@@ -203,9 +203,10 @@ export const SwipePage: React.FC = () => {
   }, [isMouseDown, touchEnd.x, touchStart.x]);
 
   return (
-    <div className="relative h-full pt-4 px-4 pb-20">
-      <header className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-dating-purple to-dating-pink">
+    <div className="flex flex-col h-[100vh]">
+      {/* Fixed Header */}
+      <header className="flex justify-between items-center p-4 bg-white">
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-dating-purple to-dating-pink">
           Discover
         </h1>
         <Button 
@@ -221,108 +222,89 @@ export const SwipePage: React.FC = () => {
         </Button>
       </header>
 
-      {/* Profile Card with Scrollable Content */}
-      <div 
-        ref={cardRef}
-        className={`profile-card overflow-hidden ${
-          direction === "left" 
-            ? "animate-swipe-left" 
-            : direction === "right" 
-            ? "animate-swipe-right" 
-            : ""
-        }`}
-        style={{
-          transform: isSwiping ? `translateX(${swipeOffset}px) rotate(${swipeOffset * 0.03}deg)` : '',
-          transition: isSwiping ? 'none' : 'transform 0.3s ease',
-          cursor: isMouseDown ? 'grabbing' : 'grab'
-        }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-      >
-        <div className="h-full overflow-y-auto">
-          {/* Profile Image Section */}
+      {/* Scrollable Profile Card Area */}
+      <div className="flex-1 overflow-hidden px-4">
+        <div className="h-[80vh]">
+          {/* Profile Card */}
           <div 
-            className="relative h-[60vh] min-h-[400px]"
+            ref={cardRef}
+            className={`profile-card h-full rounded-xl shadow-lg ${
+              direction === "left" 
+                ? "animate-swipe-left" 
+                : direction === "right" 
+                ? "animate-swipe-right" 
+                : ""
+            }`}
             style={{
-              backgroundImage: `url(${currentProfile.photos[0]})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              transform: isSwiping ? `translateX(${swipeOffset}px) rotate(${swipeOffset * 0.03}deg)` : '',
+              transition: isSwiping ? 'none' : 'transform 0.3s ease',
+              cursor: isMouseDown ? 'grabbing' : 'grab'
             }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
           >
-            {/* Gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            {/* Profile Content - Make this section scrollable */}
+            <div className="h-full overflow-y-auto">
+              {/* Profile Image Section */}
+              <div 
+                className="relative h-[60vh] min-h-[400px] flex-shrink-0"
+                style={{
+                  backgroundImage: `url(${currentProfile.photos[0]})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
+                {/* Gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-            {/* Basic Profile Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-              <div>
-                <h2 className="text-3xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
-                <p className="text-sm opacity-90">{currentProfile.location} • {currentProfile.distance} miles away</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Scrollable Profile Details Section */}
-          <div className="bg-white p-4">
-            <p className="text-gray-800 text-lg mb-4">{currentProfile.bio}</p>
-            
-            <div className="flex flex-wrap gap-2 my-4">
-              {currentProfile.interests.map((interest, index) => (
-                <Badge key={index} variant="secondary" className="bg-gray-100 text-gray-800">
-                  {interest}
-                </Badge>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              {currentProfile.prompts.map((prompt, index) => (
-                <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm font-bold text-gray-700">{prompt.question}</p>
-                  <p className="text-gray-600 mt-2">{prompt.answer}</p>
+                {/* Basic Profile Info */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <div>
+                    <h2 className="text-3xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
+                    <p className="text-sm opacity-90">{currentProfile.location} • {currentProfile.distance} miles away</p>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Scrollable Profile Details Section */}
+              <div className="bg-white p-4">
+                <p className="text-gray-800 text-lg mb-4">{currentProfile.bio}</p>
+                
+                <div className="flex flex-wrap gap-2 my-4">
+                  {currentProfile.interests.map((interest, index) => (
+                    <Badge key={index} variant="secondary" className="bg-gray-100 text-gray-800">
+                      {interest}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="space-y-4">
+                  {currentProfile.prompts.map((prompt, index) => (
+                    <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm font-bold text-gray-700">{prompt.question}</p>
+                      <p className="text-gray-600 mt-2">{prompt.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Swipe Instruction (only shown on mobile) */}
-      {isMobile && (
-        <div className="text-center text-sm text-gray-500 mt-4 animate-pulse">
-          Swipe right to like, left to pass
-        </div>
-      )}
-
-      {/* Action Buttons */}
-      {/* <div className="profile-actions">
-        <button
-          className="action-button w-14 h-14 bg-white text-dating-red border-2 border-dating-red"
-          onClick={() => handleSwipe(false)}
-        >
-          <X className="h-8 w-8 text-dating-red" />
-        </button>
-        <button
-          className="action-button w-12 h-12 bg-white text-yellow-500 border-2 border-yellow-500"
-          onClick={handleRewind}
-        >
-          <Undo className="h-6 w-6 text-yellow-500" />
-        </button>
-        <button
-          className="action-button w-12 h-12 bg-white text-blue-500 border-2 border-blue-500"
-          onClick={handleSuperLike}
-        >
-          <Star className="h-6 w-6 text-blue-500" />
-        </button>
-        <button
-          className="action-button w-14 h-14 bg-white text-dating-green border-2 border-dating-green"
-          onClick={() => handleSwipe(true)}
-        >
-          <Heart className="h-8 w-8 text-dating-green" />
-        </button>
-      </div> */}
+      {/* Fixed Bottom Section */}
+      <div className="bg-white px-4 py-2">
+        {/* Swipe Instruction (only shown on mobile) */}
+        {isMobile && (
+          <div className="text-center text-sm text-gray-500 mb-2 animate-pulse">
+            Swipe right to like, left to pass
+          </div>
+        )}
+      </div>
 
       {/* Match Dialog */}
       <Dialog open={showMatch} onOpenChange={setShowMatch}>

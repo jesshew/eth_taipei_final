@@ -7,9 +7,11 @@ export function NavigationLayout({ children }: { children: React.ReactNode }) {
   const { isVerified } = useVerification()
 
   return (
-    <>
-      {children}
+    <div className="relative flex flex-col min-h-screen max-w-md mx-auto bg-white">
+      <div className="flex-1">
+        {children}
+      </div>
       {isVerified && <BottomNav />}
-    </>
+    </div>
   )
 } 
