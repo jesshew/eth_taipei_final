@@ -265,9 +265,22 @@ export const SwipePage: React.FC = () => {
 
                 {/* Basic Profile Info */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <div>
-                    <h2 className="text-3xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
-                    <p className="text-sm opacity-90">{currentProfile.location} • {currentProfile.distance} miles away</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-3xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
+                      <p className="text-sm opacity-90">{currentProfile.location} • {currentProfile.distance} miles away</p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-10 w-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSuperLike();
+                      }}
+                    >
+                      <Star className="h-5 w-5" />
+                    </Button>
                   </div>
                 </div>
               </div>

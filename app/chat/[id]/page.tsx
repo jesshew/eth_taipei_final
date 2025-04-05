@@ -1,35 +1,43 @@
-'use client'
+"use client";
 
-import React, { useState, useRef, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { ArrowLeft, Send, Smile, Sticker } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { mockMatches, mockMessages, Message } from "@/data/mockData"
-import { formatDistanceToNow } from "date-fns"
-import StickerPicker from "@/components/StickerPicker"
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { NavigationLayout } from '@/components/NavigationLayout'
-import Link from 'next/link'
-import { mockUsers } from "@/app/data/mockData"
+import React, { useState, useRef, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, Send, Smile, Sticker } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { mockMatches, mockMessages, Message } from "@/data/mockData";
+import { formatDistanceToNow } from "date-fns";
+import StickerPicker from "@/components/StickerPicker";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { NavigationLayout } from "@/components/NavigationLayout";
+import Link from "next/link";
+import { mockUsers } from "@/app/data/mockData";
 
-const user = mockUsers[0]
+const user = mockUsers[0];
+const currentUserId = "user-123"; // This matches the userId in mockMatches and mockMessages
 
 export default function ChatPage() {
-  const router = useRouter()
-  const params = useParams()
-  const matchId = params.id as string
-  const [messages, setMessages] = useState<Message[]>([])
-  const [newMessage, setNewMessage] = useState("")
-  const [isTyping, setIsTyping] = useState(false)
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-  const [showStickerPicker, setShowStickerPicker] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const [activeSticker, setActiveSticker] = useState<string | null>(null)
-  const [showerParticles, setShowerParticles] = useState<Array<{ id: number; x: number; y: number; speed: number }>>([])
-  
+  const router = useRouter();
+  const params = useParams();
+  const matchId = params.id as string;
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showStickerPicker, setShowStickerPicker] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [activeSticker, setActiveSticker] = useState<string | null>(null);
+  const [showerParticles, setShowerParticles] = useState<
+    Array<{ id: number; x: number; y: number; speed: number }>
+  >([]);
+  const [isOnline] = useState(Math.random() > 0.7);
+
   const match = mockMatches.find((m) => m.id === matchId) || {
     id: matchId,
     matchedUserId: "default-user",
@@ -39,47 +47,47 @@ export default function ChatPage() {
       photos: ["https://source.unsplash.com/random/400x600/?portrait"],
     },
     matchDate: new Date().toISOString(),
-  }
-  
+  };
+
   useEffect(() => {
     if (matchId && mockMessages[matchId]) {
-      setMessages(mockMessages[matchId])
+      setMessages(mockMessages[matchId]);
     } else {
       // Initialize with empty messages array if no messages found
-      setMessages([])
+      setMessages([]);
     }
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [matchId])
-  
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [matchId]);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
-  
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   if (!user) {
-    router.push("/matches")
-    return null
+    router.push("/matches");
+    return null;
   }
-  
+
   const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newMessage.trim()) return
-    
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
     const newMsg: Message = {
       id: `msg-new-${Date.now()}`,
       matchId: matchId!,
-      senderId: user.id,
+      senderId: currentUserId,
       text: newMessage,
       timestamp: new Date().toISOString(),
       isRead: false,
-    }
-    
-    setMessages([...messages, newMsg])
-    setNewMessage("")
-    
+    };
+
+    setMessages([...messages, newMsg]);
+    setNewMessage("");
+
     // Simulate response after a delay
     setTimeout(() => {
-      setIsTyping(true)
-      
+      setIsTyping(true);
+
       setTimeout(() => {
         const responses = [
           "That's interesting! Tell me more.",
@@ -88,8 +96,8 @@ export default function ChatPage() {
           "I'd love to talk about that when we meet.",
           "What are your plans this weekend?",
           "I've been wanting to try that place too!",
-        ]
-        
+        ];
+
         const responseMsg: Message = {
           id: `msg-response-${Date.now()}`,
           matchId: matchId!,
@@ -97,90 +105,90 @@ export default function ChatPage() {
           text: responses[Math.floor(Math.random() * responses.length)],
           timestamp: new Date().toISOString(),
           isRead: true,
-        }
-        
-        setIsTyping(false)
-        setMessages(prev => [...prev, responseMsg])
-      }, 3000)
-    }, 1000)
-  }
+        };
+
+        setIsTyping(false);
+        setMessages((prev) => [...prev, responseMsg]);
+      }, 3000);
+    }, 1000);
+  };
 
   const handleEmojiSelect = (emoji: any) => {
-    setNewMessage(prev => prev + emoji.native)
-    setShowEmojiPicker(false)
-  }
+    setNewMessage((prev) => prev + emoji.native);
+    setShowEmojiPicker(false);
+  };
 
   const handleStickerSelect = (sticker: any) => {
     const newMsg: Message = {
       id: `msg-new-${Date.now()}`,
       matchId: matchId!,
-      senderId: user.id,
+      senderId: currentUserId,
       text: sticker.image,
       isSticker: true,
       timestamp: new Date().toISOString(),
       isRead: false,
-    }
-    
-    setMessages([...messages, newMsg])
-    setShowStickerPicker(false)
+    };
+
+    setMessages([...messages, newMsg]);
+    setShowStickerPicker(false);
 
     // Simulate response with a sticker
     setTimeout(() => {
-      setIsTyping(true)
-      
+      setIsTyping(true);
+
       setTimeout(() => {
         const responseSticker = {
           id: `msg-response-${Date.now()}`,
           matchId: matchId!,
           senderId: match.matchedUserId,
-          text: '❤️', // Free heart sticker as response
+          text: "❤️", // Free heart sticker as response
           isSticker: true,
           timestamp: new Date().toISOString(),
           isRead: true,
-        }
-        
-        setIsTyping(false)
-        setMessages(prev => [...prev, responseSticker])
-      }, 3000)
-    }, 1000)
-  }
+        };
+
+        setIsTyping(false);
+        setMessages((prev) => [...prev, responseSticker]);
+      }, 3000);
+    }, 1000);
+  };
 
   const handleStickerClick = (sticker: string) => {
-    setActiveSticker(sticker)
-    
-    // Create rain particles starting from the top
+    setActiveSticker(sticker);
+
+    // Create rain particles with increased speed
     const particles = Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * window.innerWidth,
       y: -50, // Start above the viewport
-      speed: Math.random() * 2 + 1, // Random falling speed
-    }))
-    
-    setShowerParticles(particles)
-    
-    // Clear the shower after 1 second
+      speed: Math.random() * 2 + 1, // Increased base speed (was 1)
+    }));
+
+    setShowerParticles(particles);
+
+    // Keep the same total duration
     setTimeout(() => {
-      setActiveSticker(null)
-      setShowerParticles([])
-    }, 2000)
-  }
+      setActiveSticker(null);
+      setShowerParticles([]);
+    }, 4000);
+  };
 
   // Animation frame for rain effect
   useEffect(() => {
-    if (!activeSticker) return
+    if (!activeSticker) return;
 
     const animate = () => {
-      setShowerParticles(prevParticles => 
-        prevParticles.map(particle => ({
+      setShowerParticles((prevParticles) =>
+        prevParticles.map((particle) => ({
           ...particle,
-          y: particle.y + particle.speed,
+          y: particle.y + particle.speed * 2, // Multiply speed by 2 for faster falling
         }))
-      )
-    }
+      );
+    };
 
-    const animationFrame = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationFrame)
-  }, [activeSticker, showerParticles])
+    const animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [activeSticker, showerParticles]);
 
   return (
     <NavigationLayout>
@@ -203,20 +211,22 @@ export default function ChatPage() {
             <div className="ml-3">
               <h3 className="font-semibold">{match.matchedUser.name}</h3>
               <p className="text-xs text-gray-500">
-                {Math.random() > 0.7 ? "Online now" : "Last active 2h ago"}
+                {isOnline ? "Online now" : "Last active 2h ago"}
               </p>
             </div>
           </div>
         </div>
-        
+
         {/* Chat messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 relative">
           {messages.map((message) => {
-            const isCurrentUser = message.senderId === user.id
+            const isCurrentUser = message.senderId === currentUserId;
             return (
               <div
                 key={message.id}
-                className={`flex ${isCurrentUser ? "justify-end" : "justify-start"}`}
+                className={`flex ${
+                  isCurrentUser ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
                   className={`max-w-[80%] rounded-xl px-4 py-2 ${
@@ -246,9 +256,9 @@ export default function ChatPage() {
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
-          
+
           {/* Sticker rain animation */}
           {activeSticker && (
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -260,7 +270,7 @@ export default function ChatPage() {
                     left: `${particle.x}px`,
                     top: `${particle.y}px`,
                     transform: `rotate(${Math.random() * 30 - 15}deg)`,
-                    opacity: 1 - (particle.y / window.innerHeight), // Fade out as they fall
+                    opacity: 1 - particle.y / window.innerHeight, // Fade out as they fall
                   }}
                 >
                   {activeSticker}
@@ -268,7 +278,7 @@ export default function ChatPage() {
               ))}
             </div>
           )}
-          
+
           {/* Typing indicator */}
           {isTyping && (
             <div className="flex justify-start">
@@ -279,10 +289,10 @@ export default function ChatPage() {
               </div>
             </div>
           )}
-          
+
           <div ref={messagesEndRef} />
         </div>
-        
+
         {/* Message input */}
         <form
           onSubmit={handleSendMessage}
@@ -304,7 +314,10 @@ export default function ChatPage() {
               </PopoverContent>
             </Popover>
 
-            <Popover open={showStickerPicker} onOpenChange={setShowStickerPicker}>
+            <Popover
+              open={showStickerPicker}
+              onOpenChange={setShowStickerPicker}
+            >
               <PopoverTrigger asChild>
                 <Button type="button" variant="ghost" size="icon">
                   <Sticker className="h-5 w-5" />
@@ -324,7 +337,7 @@ export default function ChatPage() {
             <Button
               type="submit"
               size="icon"
-              className="rounded-full dating-gradient hover:opacity-90"
+              className="rounded-full text-2xl bg-gradient-to-r from-dating-purple to-dating-pink hover:opacity-90"
               disabled={!newMessage.trim()}
             >
               <Send className="h-4 w-4" />
@@ -333,5 +346,5 @@ export default function ChatPage() {
         </form>
       </div>
     </NavigationLayout>
-  )
-} 
+  );
+}

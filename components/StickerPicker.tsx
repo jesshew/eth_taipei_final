@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { payWithWorldcoin } from '@/lib/worldcoin';
 
 interface Sticker {
   id: string;
@@ -14,10 +15,12 @@ interface Sticker {
 const stickers: Sticker[] = [
   { id: 'heart', name: 'Heart', image: '❤️', isPremium: false },
   { id: 'smile', name: 'Smile', image: '😊', isPremium: false },
-  { id: 'rose', name: 'Rose', image: '🌹', price: 1.99, isPremium: true },
-  { id: 'kiss', name: 'Kiss', image: '💋', price: 2.99, isPremium: true },
-  { id: 'ring', name: 'Ring', image: '💍', price: 4.99, isPremium: true },
-  { id: 'chocolate', name: 'Chocolate', image: '🍫', price: 1.99, isPremium: true },
+  { id: 'rose', name: 'Rose', image: '🌹', price: 1, isPremium: true },
+  { id: 'kiss', name: 'Kiss', image: '💋', price: 2, isPremium: true },
+  { id: 'ring', name: 'Ring', image: '💍', price: 4, isPremium: true },
+//   { id: 'chocolate', name: 'Chocolate', image: '🍫', price: 1, isPremium: true },
+  { id: 'star', name: 'Star', image: '⭐', price: 2, isPremium: true },
+  { id: 'gift', name: 'Gift', image: '🎁', price: 3, isPremium: true },
 ];
 
 interface StickerPickerProps {
@@ -74,7 +77,7 @@ const StickerPicker: React.FC<StickerPickerProps> = ({ onSelect }) => {
             <span className="text-6xl mb-4">{selectedSticker?.image}</span>
             <p className="text-lg font-semibold">{selectedSticker?.name}</p>
             <p className="text-2xl font-bold text-dating-purple mt-2">
-              ${selectedSticker?.price}
+              WLD {selectedSticker?.price}
             </p>
           </div>
           <DialogFooter>
@@ -85,8 +88,17 @@ const StickerPicker: React.FC<StickerPickerProps> = ({ onSelect }) => {
               Cancel
             </Button>
             <Button
-              className="dating-gradient"
-              onClick={handlePurchase}
+              className="mb-1 text bg-gradient-to-r from-dating-purple to-dating-pink"
+              onClick={() => {
+                const price = selectedSticker?.price;
+                const name = selectedSticker?.name;
+
+                if (price !== undefined && name) {
+                  payWithWorldcoin(price, name);
+                } else {
+                  console.error("Selected sticker price or name is undefined.");
+                }
+              }}
             >
               Purchase & Send
             </Button>

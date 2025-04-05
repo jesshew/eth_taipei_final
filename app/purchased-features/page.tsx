@@ -1,13 +1,23 @@
-'use client'
+"use client";
 
 import { useState } from "react";
-import { ArrowLeft, CreditCard, Crown, EyeOff, Heart, Star, Undo2, Zap } from "lucide-react";
+import {
+  ArrowLeft,
+  CreditCard,
+  Crown,
+  EyeOff,
+  Heart,
+  Star,
+  Undo2,
+  Zap,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { NavigationLayout } from '@/components/NavigationLayout';
+import { NavigationLayout } from "@/components/NavigationLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { payWithWorldcoin } from "@/lib/worldcoin";
 
 export default function PurchasedFeaturesPage() {
   const router = useRouter();
@@ -80,8 +90,8 @@ export default function PurchasedFeaturesPage() {
 
           <Tabs defaultValue="features" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsTrigger value="purchase">Subscription</TabsTrigger>
               <TabsTrigger value="features">Features</TabsTrigger>
-              <TabsTrigger value="purchase">Purchase</TabsTrigger>
             </TabsList>
 
             <TabsContent value="features">
@@ -97,13 +107,26 @@ export default function PurchasedFeaturesPage() {
                   {premiumFeatures.length > 0 ? (
                     <div className="space-y-4">
                       {premiumFeatures.map((feature) => (
-                        <div key={feature.id} className="flex items-start p-3 border rounded-lg">
+                        <div
+                          key={feature.id}
+                          className="flex items-start p-3 border rounded-lg"
+                        >
                           <div className="bg-pink-100 p-2 rounded-full mr-3">
-                            {feature.icon === "Star" && <Star className="h-5 w-5 text-pink-600" />}
-                            {feature.icon === "Zap" && <Zap className="h-5 w-5 text-pink-600" />}
-                            {feature.icon === "Undo2" && <Undo2 className="h-5 w-5 text-pink-600" />}
-                            {feature.icon === "EyeOff" && <EyeOff className="h-5 w-5 text-pink-600" />}
-                            {feature.icon === "Heart" && <Heart className="h-5 w-5 text-pink-600" />}
+                            {feature.icon === "Star" && (
+                              <Star className="h-5 w-5 text-pink-600" />
+                            )}
+                            {feature.icon === "Zap" && (
+                              <Zap className="h-5 w-5 text-pink-600" />
+                            )}
+                            {feature.icon === "Undo2" && (
+                              <Undo2 className="h-5 w-5 text-pink-600" />
+                            )}
+                            {feature.icon === "EyeOff" && (
+                              <EyeOff className="h-5 w-5 text-pink-600" />
+                            )}
+                            {feature.icon === "Heart" && (
+                              <Heart className="h-5 w-5 text-pink-600" />
+                            )}
                           </div>
                           <div className="flex-1">
                             <div className="flex justify-between">
@@ -118,37 +141,52 @@ export default function PurchasedFeaturesPage() {
                                 </span>
                               )}
                             </div>
-                            <p className="text-sm text-gray-500 mt-1">{feature.description}</p>
+                            <p className="text-sm text-gray-500 mt-1">
+                              {feature.description}
+                            </p>
 
                             {feature.remaining && (
                               <div className="mt-2 flex items-center">
-                                <span className="text-xs text-gray-500 mr-2">Remaining: {feature.remaining}</span>
+                                <span className="text-xs text-gray-500 mr-2">
+                                  Remaining: {feature.remaining}
+                                </span>
                                 {feature.resetsAt && (
-                                  <span className="text-xs text-gray-500">Resets: {feature.resetsAt}</span>
+                                  <span className="text-xs text-gray-500">
+                                    Resets: {feature.resetsAt}
+                                  </span>
                                 )}
                               </div>
                             )}
 
                             {feature.unlimited && (
                               <div className="mt-2">
-                                <span className="text-xs text-gray-500">Unlimited usage</span>
+                                <span className="text-xs text-gray-500">
+                                  Unlimited usage
+                                </span>
                               </div>
                             )}
 
                             {feature.expiresAt && (
                               <div className="mt-2">
-                                <span className="text-xs text-gray-500">Expires: {feature.expiresAt}</span>
+                                <span className="text-xs text-gray-500">
+                                  Expires: {feature.expiresAt}
+                                </span>
                               </div>
                             )}
 
                             <div className="mt-3 flex items-center justify-between">
                               {feature.icon === "Zap" && feature.active ? (
-                                <Button size="sm" className="bg-pink-600 hover:bg-pink-700">
+                                <Button
+                                  size="sm"
+                                  className="bg-pink-600 hover:bg-pink-700"
+                                >
                                   <Zap className="h-3 w-3 mr-1" /> Use Boost
                                 </Button>
                               ) : feature.icon === "Zap" && !feature.active ? (
                                 <div className="flex items-center justify-between w-full">
-                                  <div className="text-sm font-medium">$4.99 per boost</div>
+                                  <div className="text-sm font-medium">
+                                    $4.99 per boost
+                                  </div>
                                   <Button
                                     size="sm"
                                     className="bg-pink-600 hover:bg-pink-700"
@@ -159,7 +197,9 @@ export default function PurchasedFeaturesPage() {
                                 </div>
                               ) : feature.icon === "Star" && !feature.active ? (
                                 <div className="flex items-center justify-between w-full">
-                                  <div className="text-sm font-medium">$3.99 for 5</div>
+                                  <div className="text-sm font-medium">
+                                    $3.99 for 5
+                                  </div>
                                   <Button
                                     size="sm"
                                     className="bg-pink-600 hover:bg-pink-700"
@@ -170,7 +210,9 @@ export default function PurchasedFeaturesPage() {
                                 </div>
                               ) : !feature.active ? (
                                 <div className="flex items-center justify-between w-full">
-                                  <div className="text-sm font-medium">From $4.99/month</div>
+                                  <div className="text-sm font-medium">
+                                    From $4.99/month
+                                  </div>
                                   <Button
                                     size="sm"
                                     className="bg-pink-600 hover:bg-pink-700"
@@ -191,15 +233,22 @@ export default function PurchasedFeaturesPage() {
                         <CreditCard className="h-6 w-6 text-gray-400" />
                       </div>
                       <h4 className="font-medium">No Premium Features</h4>
-                      <p className="text-sm text-gray-500 mt-1">You haven't purchased any premium features yet.</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        You haven't purchased any premium features yet.
+                      </p>
                       <div className="mt-4 space-y-3">
                         <div className="p-3 border rounded-lg">
                           <div className="flex justify-between items-center mb-2">
-                            <h4 className="font-medium">Premium Subscription</h4>
-                            <span className="text-sm font-bold">From $4.99/mo</span>
+                            <h4 className="font-medium">
+                              Premium Subscription
+                            </h4>
+                            <span className="text-sm font-bold">
+                              From $4.99/mo
+                            </span>
                           </div>
                           <p className="text-sm text-gray-500 mb-3">
-                            Unlock all premium features and enhance your dating experience
+                            Unlock all premium features and enhance your dating
+                            experience
                           </p>
                           <Button
                             className="w-full bg-pink-600 hover:bg-pink-700"
@@ -212,9 +261,13 @@ export default function PurchasedFeaturesPage() {
                         <div className="p-3 border rounded-lg">
                           <div className="flex justify-between items-center mb-2">
                             <h4 className="font-medium">Boosts</h4>
-                            <span className="text-sm font-bold">$4.99 each</span>
+                            <span className="text-sm font-bold">
+                              $4.99 each
+                            </span>
                           </div>
-                          <p className="text-sm text-gray-500 mb-3">Get more visibility for 30 minutes</p>
+                          <p className="text-sm text-gray-500 mb-3">
+                            Get more visibility for 30 minutes
+                          </p>
                           <Button
                             className="w-full bg-pink-600 hover:bg-pink-700"
                             onClick={() => router.push("/app/premium")}
@@ -226,9 +279,13 @@ export default function PurchasedFeaturesPage() {
                         <div className="p-3 border rounded-lg">
                           <div className="flex justify-between items-center mb-2">
                             <h4 className="font-medium">Super Likes</h4>
-                            <span className="text-sm font-bold">$3.99 for 5</span>
+                            <span className="text-sm font-bold">
+                              $3.99 for 5
+                            </span>
                           </div>
-                          <p className="text-sm text-gray-500 mb-3">Stand out from the crowd</p>
+                          <p className="text-sm text-gray-500 mb-3">
+                            Stand out from the crowd
+                          </p>
                           <Button
                             className="w-full bg-pink-600 hover:bg-pink-700"
                             onClick={() => router.push("/app/premium")}
@@ -252,15 +309,16 @@ export default function PurchasedFeaturesPage() {
                       {
                         id: "monthly",
                         name: "Monthly",
-                        price: "$9.99/mo",
+                        price: "WLD 7.99/mo",
+                        totalPrice: "WLD 7.99 billed monthly",
                         features: "All premium features",
                         popular: false,
                       },
                       {
                         id: "biannual",
                         name: "6 Months",
-                        price: "$6.99/mo",
-                        totalPrice: "$41.94 billed every 6 months",
+                        price: "WLD 4.99/mo",
+                        totalPrice: "WLD 29.94 billed every 6 months",
                         features: "All premium features + Incognito Mode",
                         popular: true,
                         savings: "Save 30%",
@@ -268,16 +326,19 @@ export default function PurchasedFeaturesPage() {
                       {
                         id: "annual",
                         name: "Yearly",
-                        price: "$4.99/mo",
-                        totalPrice: "$59.88 billed annually",
-                        features: "All premium features + Incognito Mode + Priority Support",
+                        price: "WLD 2.99/mo",
+                        totalPrice: "WLD35.88 billed annually",
+                        features:
+                          "All premium features + Incognito Mode + Priority Support",
                         popular: false,
                         savings: "Save 50%",
                       },
                     ].map((plan) => (
                       <div
                         key={plan.id}
-                        className={`p-3 border rounded-lg relative ${plan.popular ? "border-pink-600" : ""}`}
+                        className={`p-3 border rounded-lg relative ${
+                          plan.popular ? "border-pink-600" : ""
+                        }`}
                       >
                         {plan.popular && (
                           <div className="absolute top-0 right-0 bg-pink-600 text-white text-xs px-2 py-0.5 rounded-bl-lg">
@@ -288,10 +349,16 @@ export default function PurchasedFeaturesPage() {
                           <h4 className="font-medium">{plan.name}</h4>
                           <div className="text-right">
                             <div className="font-bold">{plan.price}</div>
-                            {plan.totalPrice && <div className="text-xs text-gray-500">{plan.totalPrice}</div>}
+                            {plan.totalPrice && (
+                              <div className="text-xs text-gray-500">
+                                {plan.totalPrice}
+                              </div>
+                            )}
                           </div>
                         </div>
-                        <p className="text-sm text-gray-500 mb-2">{plan.features}</p>
+                        <p className="text-sm text-gray-500 mb-2">
+                          {plan.features}
+                        </p>
                         {plan.savings && (
                           <div className="mb-2">
                             <span className="text-xs bg-pink-100 text-pink-800 px-2 py-0.5 rounded-full">
@@ -301,9 +368,22 @@ export default function PurchasedFeaturesPage() {
                         )}
                         <Button
                           className="w-full bg-pink-600 hover:bg-pink-700"
-                          onClick={() => router.push("/app/premium")}
+                          onClick={() => {
+                            const price = parseFloat(
+                              plan.totalPrice.match(/[\d,.]+/g)?.[0].replace(/,/g, "") || "0"
+                            );
+                            const name = plan.name;
+
+                            if (!isNaN(price) && name) {
+                              payWithWorldcoin(price, name);
+                            } else {
+                              console.error(
+                                "Selected plan price or name is invalid."
+                              );
+                            }
+                          }}
                         >
-                          Subscribe
+                          Subscribe with Worldcoin
                         </Button>
                       </div>
                     ))}

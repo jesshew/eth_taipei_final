@@ -1,4 +1,4 @@
- 'use client'
+"use client";
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -57,10 +57,9 @@ export default function ProfilePage() {
             variant="ghost" 
             size="sm" 
             className="text-gray-500"
-            onClick={() =>{}}
-            disabled={true}
+            onClick={() => router.push('/settings')}
           >
-            <Edit2 className="h-4 w-4" />
+            <Settings className="h-4 w-4" />
           </Button>
         </header>
         {/* Profile Header */}
@@ -180,5 +179,5 @@ export default function ProfilePage() {
         </div>
       </div>
     </NavigationLayout>
-  )
+  );
 }

@@ -36,27 +36,49 @@ export const sendSuccessNotification = () => {
     style: 'success',
   })
 }
-
-// Payment function
 export const sendPayment = async (): Promise<boolean> => {
-  const payload: PayCommandInput = {
-    reference: "hi-testing",
-    to: PAYMENT_RECIPIENT,
-    tokens: [
-      {
-        symbol: Tokens.WLD,
-        token_amount: tokenToDecimals(PAYMENT_AMOUNT, Tokens.WLD).toString(),
-      },
-      {
-        symbol: Tokens.USDCE,
-        token_amount: tokenToDecimals(PAYMENT_AMOUNT, Tokens.USDCE).toString(),
-      },
-    ],
-    description: 'Test example payment for minikit',
+    sendStrongHapticFeedback()
+    const payload: PayCommandInput = {
+      reference: "hi-testing",
+      to: PAYMENT_RECIPIENT,
+      tokens: [
+        {
+          symbol: Tokens.WLD,
+          token_amount: tokenToDecimals(PAYMENT_AMOUNT, Tokens.WLD).toString(),
+        },
+        {
+          symbol: Tokens.USDCE,
+          token_amount: tokenToDecimals(PAYMENT_AMOUNT, Tokens.USDCE).toString(),
+        },
+      ],
+      description: 'Test example payment for minikit',
+    }
+  
+    const { finalPayload } = await MiniKit.commandsAsync.pay(payload)
+    return finalPayload.status === 'success';
   }
 
-  const { finalPayload } = await MiniKit.commandsAsync.pay(payload)
-  return finalPayload.status === 'success';
+// Payment function
+export const payWithWorldcoin = async (paymentAmount: number, description: string): Promise<boolean> => {
+    sendStrongHapticFeedback()
+    const payload: PayCommandInput = {
+        reference: "hi-testing",
+        to: PAYMENT_RECIPIENT,
+        tokens: [
+        {
+            symbol: Tokens.WLD,
+            token_amount: tokenToDecimals(paymentAmount, Tokens.WLD).toString(),
+        },
+        {
+            symbol: Tokens.USDCE,
+            token_amount: tokenToDecimals(paymentAmount, Tokens.USDCE).toString(),
+        },
+        ],
+        description: description,
+    }
+
+    const { finalPayload } = await MiniKit.commandsAsync.pay(payload)
+    return finalPayload.status === 'success';
 }
 
 // Verification functions
