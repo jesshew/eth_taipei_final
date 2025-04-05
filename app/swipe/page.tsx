@@ -35,7 +35,7 @@ export const SwipePage: React.FC = () => {
     setDirection(liked ? "right" : "left");
     
     // Simulate 30% chance of match if liked
-    const isMatch = liked && Math.random() < 0.3;
+    const isMatch = liked && Math.random() < 0.6;
     
     setTimeout(() => {
       if (isMatch) {
@@ -62,7 +62,7 @@ export const SwipePage: React.FC = () => {
     });
     
     // Higher chance of match with super like
-    const isMatch = Math.random() < 0.6;
+    const isMatch = Math.random() < 0.8;
     
     if (isMatch) {
       setMatchedProfile(currentProfile);

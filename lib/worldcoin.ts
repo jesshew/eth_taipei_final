@@ -1,5 +1,5 @@
-import { MiniKit, VerifyCommandInput, VerificationLevel, ISuccessResult, tokenToDecimals, Tokens, PayCommandInput } from '@worldcoin/minikit-js'
-
+import { MiniKit, VerifyCommandInput, VerificationLevel, ISuccessResult, tokenToDecimals, Tokens, PayCommandInput, SignMessageInput } from '@worldcoin/minikit-js'
+// import Safe from '@safe-global/safe-core-sdk'
 // Constants
 const VERIFY_ACTION = 'verify-dating'
 const VERIFY_SIGNAL = '0x12312'
@@ -118,6 +118,31 @@ export const verifyUser = async (): Promise<VerificationResult> => {
     return { isSuccess: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
+
+
+export const signAndVerifyMessage = async (message: string) => {
+  const signMessagePayload: SignMessageInput = {
+    message: "I confirm that the information in my profile is truthful and accurately represents me.",
+  };
+
+  const {finalPayload} = await MiniKit.commandsAsync.signMessage(signMessagePayload);
+
+//   if (finalPayload.status === "success") {
+//     // const messageHash = hashSafeMessage(messageToSign);
+
+//     const isValid = await (
+//       await Safe.init({
+//         provider:
+//           "https://worldchain-mainnet.g.alchemy.com/v2/your-api-key",
+//         safeAddress: finalPayload.address,
+//       })
+//     ).isValidSignature(message, finalPayload.signature);
+
+    // Checks functionally if the signature is correct
+    if (finalPayload.status === "success") {
+      console.log("Signature is valid");
+    }
+};
 
 // App ID helper
 export const getAppId = (): string | null => {

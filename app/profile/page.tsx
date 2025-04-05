@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Camera, Crown, Edit2, MapPin, Settings } from 'lucide-react'
+import { Camera, Crown, Edit2, MapPin, PenToolIcon, Settings } from 'lucide-react'
 import { NavigationLayout } from '@/components/NavigationLayout'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { CardContent } from '@/components/ui/card'
 import { Card } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'  // Replace the router import
-
+import { signAndVerifyMessage } from '@/lib/worldcoin'
 // Mock user data - in a real app, this would come from your backend
 const userProfile = {
   name: 'Emily',
@@ -53,14 +53,24 @@ export default function ProfilePage() {
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-dating-purple to-dating-pink">
             My Profile
           </h1>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-gray-500"
-            onClick={() => router.push('/settings')}
-          >
-            <Settings className="h-4 w-4" />
-          </Button>
+          <div className="flex items-center">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-gray-500 mr-2"
+              onClick={() => router.push('/settings')}
+            >
+              <Settings className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="default" 
+              size="sm" 
+              onClick={() => signAndVerifyMessage("Hello World")}
+            >
+              <PenToolIcon className="h-4 w-4 mr-1" />
+              Sign
+            </Button>
+          </div>
         </header>
         {/* Profile Header */}
         <div className="relative h-[70vh] min-h-[500px]">

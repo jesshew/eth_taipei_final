@@ -88,7 +88,7 @@ export default function PurchasedFeaturesPage() {
             </p>
           </div>
 
-          <Tabs defaultValue="features" className="w-full">
+          <Tabs defaultValue="purchase" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
               <TabsTrigger value="purchase">Subscription</TabsTrigger>
               <TabsTrigger value="features">Features</TabsTrigger>

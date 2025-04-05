@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import MiniKitProvider from '@/components/minikit-provider'
 import { VerificationProvider } from '@/contexts/verification-context'
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
                 {children}
               </main>
             </div>
+            <Toaster />
           </body>
         </VerificationProvider>
       </MiniKitProvider>
