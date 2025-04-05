@@ -11,6 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { signAndVerifyMessage } from '@/lib/worldcoin';
+import { useProfileVerification } from '@/lib/hooks/useProfileVerification';
+import { useToast } from '@/components/ui/use-toast';
 
 // Using the same mock data from profile page
 const userProfile = {
@@ -45,6 +47,8 @@ const userProfile = {
 
 export default function EditProfilePage() {
   const router = useRouter();
+  const { toast } = useToast();
+  const { verifyProfile, loading, error } = useProfileVerification();
   const [formData, setFormData] = useState({
     name: userProfile.name,
     age: userProfile.age,
@@ -54,11 +58,36 @@ export default function EditProfilePage() {
     prompts: userProfile.prompts,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log('Form submitted:', formData);
-    router.push('/profile');
+    try {
+      // Create a verification message from the profile data
+      const verificationMessage = JSON.stringify({
+        name: formData.name,
+        age: formData.age,
+        location: formData.location,
+        timestamp: Date.now(),
+      });
+
+      // First verify with the contract
+      await verifyProfile(verificationMessage);
+      
+      // Then proceed with Worldcoin verification
+    //   await signAndVerifyMessage();
+      
+      toast({
+        title: "Profile Updated",
+        description: "Your profile has been successfully updated and verified!",
+      });
+
+      router.push('/profile');
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err instanceof Error ? err.message : "Failed to update profile",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -88,17 +117,27 @@ export default function EditProfilePage() {
             </h1>
           </div>
           <Button 
-              variant="default" 
-              size="sm" 
-              onClick={async () => {
-                await signAndVerifyMessage();
-                router.push('/profile');
-              }}
-            >
-              <PenToolIcon className="h-4 w-4 mr-1" />
-              Save & Sign
-            </Button>
+            variant="default" 
+            size="sm"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="loading loading-spinner loading-sm"></span>
+            ) : (
+              <>
+                <PenToolIcon className="h-4 w-4 mr-1" />
+                Save & Verify
+              </>
+            )}
+          </Button>
         </header>
+
+        {error && (
+          <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="px-6 py-8 space-y-6 pb-20">
           {/* Photos Section */}
