@@ -54,22 +54,26 @@ export default function ProfilePage() {
             My Profile
           </h1>
           <div className="flex items-center">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-gray-500 mr-2"
-              onClick={() => router.push('/settings')}
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
-            <Button 
-              variant="default" 
-              size="sm" 
-              onClick={() => signAndVerifyMessage("Hello World")}
-            >
-              <PenToolIcon className="h-4 w-4 mr-1" />
-              Sign
-            </Button>
+            <div className="flex items-center">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-gray-500 mr-2"
+                onClick={() => router.push('/settings')}
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="text-gray-500 mr-2"
+                onClick={() => router.push('/profile/edit')}
+              >
+                <Edit2 className="h-5 w-5" />
+              </Button>
+            </div>
+
+            
           </div>
         </header>
         {/* Profile Header */}
@@ -98,16 +102,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Edit Profile Button */}
-          {/* <Button
-            size="icon"
-            variant="ghost"
-            className="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white transition-colors"
-            onClick={() => {/* TODO: Implement edit profile }
-          >
-            <Edit2 className="h-5 w-5" />
-          </Button> */}
-
+          
           {/* Profile Info */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
             <h1 className="text-3xl font-bold mb-2">

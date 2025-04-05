@@ -24,17 +24,17 @@ export default function SettingsPage() {
   const [blockReason, setBlockReason] = useState("");
   const [reportReason, setReportReason] = useState("");
   
-  const handleIncognitoToggle = () => {
-    if (!user?.isPremium && !incognitoMode) {
-      toast({
-        title: "Premium Feature",
-        description: "Incognito Mode is only available to premium subscribers.",
-        duration: 3000,
-      });
-      return;
-    }
-    setIncognitoMode(!incognitoMode);
-  };
+//   const handleIncognitoToggle = () => {
+//     if (!user?.isPremium && !incognitoMode) {
+//       toast({
+//         title: "Premium Feature",
+//         description: "Incognito Mode is only available to premium subscribers.",
+//         duration: 3000,
+//       });
+//       return;
+//     }
+//     setIncognitoMode(!incognitoMode);
+//   };
   
   const blockReasons = [
     "I'm not interested in this person",
@@ -79,7 +79,7 @@ export default function SettingsPage() {
                   Browse without being shown to others
                 </p>
               </div>
-              <div onClick={handleIncognitoToggle} className="cursor-pointer">
+              <div onClick={()=>{}} className="cursor-pointer">
                 {incognitoMode ? 
                   <ToggleRight className="h-7 w-7 text-dating-purple" /> : 
                   <ToggleLeft className="h-7 w-7 text-gray-400" />
