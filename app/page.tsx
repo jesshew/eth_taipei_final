@@ -5,8 +5,6 @@ import { Heart, MessageCircle, User } from "lucide-react"
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
-import ProfileCard from "@/components/profile-card"
-import { profiles } from "@/lib/data"
 import { SwipePage } from "@/components/SwipePage"
 import { 
   sendPayment, 
@@ -17,10 +15,11 @@ import {
   sendSuccessNotification 
 } from "@/lib/worldcoin"
 import VerifyHumanity from "@/components/VerifyHumanity"
-import { BottomNav } from "@/components/BottomNav"
+import { useVerification } from '@/contexts/verification-context'
+import { NavigationLayout } from '@/components/NavigationLayout'
 
 export default function Home() {
-  const [isVerified, setIsVerified] = useState(false);
+  const { isVerified, setVerified } = useVerification()
   const [appId, setAppId] = useState<string | null>(null);
   const [isPaid, setIsPaid] = useState(false);
 
@@ -38,13 +37,13 @@ export default function Home() {
   };
 
   const handleVerificationSuccess = () => {
-    setIsVerified(true);
+    setVerified(true);
     sendHapticFeedback();
     console.log('Verification successful');
   };
 
   const handleUnverify = () => {
-    setIsVerified(false);
+    setVerified(false);
     sendStrongHapticFeedback();
     console.log('User unverified');
   };
@@ -117,28 +116,29 @@ export default function Home() {
   //   </>
   // );
 
-  const renderContent = () => (
-    <>
-      <SwipePage />
-      <Button onClick={handleUnverify} className="w-full">
-        Unverify
-      </Button>
-      <BottomNav />
-    </>
-  )
+  // const renderContent = () => (
+  //   <>
+  //     {/* <SwipePage /> */}
+  //     {/* <Button onClick={handleUnverify} className="w-full">
+  //       Unverify
+  //     </Button> */}
+  //     <BottomNav />
+  //   </>
+  // )
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {!isVerified ? (
-        <VerifyHumanity 
-          onVerificationSuccess={handleVerificationSuccess}
-          onVerificationError={handleVerificationError}
-        />
-      ) : (
-        renderContent()
-        // <SwipePage />
-      )}
-    </div>
+    <NavigationLayout>
+      <div className="flex min-h-screen flex-col">
+        {!isVerified ? (
+          <VerifyHumanity 
+            onVerificationSuccess={handleVerificationSuccess}
+            onVerificationError={handleVerificationError}
+          />
+        ) : (
+          <SwipePage />
+        )}
+      </div>
+    </NavigationLayout>
   );
 }
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import MiniKitProvider from '@/components/minikit-provider'
-import { BottomNav } from "@/components/BottomNav"
+import { VerificationProvider } from '@/contexts/verification-context'
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -16,14 +16,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <MiniKitProvider>
-        <body>
-          <div className="flex flex-col h-screen max-w-md mx-auto bg-gray-50">
-            <main className="flex-1 overflow-y-auto pb-16">
-              {children}
-            </main>
-            {/* <BottomNav /> */}
-          </div>
-        </body>
+        <VerificationProvider>
+          <body>
+            <div className="flex flex-col h-screen max-w-md mx-auto bg-gray-50">
+              <main className="flex-1 overflow-y-auto pb-16">
+                {children}
+              </main>
+            </div>
+          </body>
+        </VerificationProvider>
       </MiniKitProvider>
     </html>
   )

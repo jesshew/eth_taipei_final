@@ -8,6 +8,7 @@ import { mockProfiles, Profile } from "@/data/mockData";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { NavigationLayout } from '@/components/NavigationLayout'
 
 export const SwipePage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -376,4 +377,10 @@ export const SwipePage: React.FC = () => {
   );
 };
 
-export default SwipePage;
+export default function SwipePageWrapper() {
+  return (
+    <NavigationLayout>
+      <SwipePage />
+    </NavigationLayout>
+  )
+}

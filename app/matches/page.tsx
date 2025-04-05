@@ -1,43 +1,15 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Heart, MessageCircle, User } from "lucide-react"
+import { MessageCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { matches } from "@/lib/data"
+import { NavigationLayout } from '@/components/NavigationLayout'
 
 export default function MatchesPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <div className="mr-4 flex">
-            <Link href="/" className="flex items-center space-x-2">
-              <Heart className="h-6 w-6 text-pink-500" />
-              <span className="font-bold text-xl">DateMe</span>
-            </Link>
-          </div>
-          <div className="flex flex-1 items-center justify-end space-x-2">
-            <nav className="flex items-center space-x-2">
-              <Link href="/matches">
-                <Button variant="ghost" size="icon">
-                  <Heart className="h-5 w-5 text-pink-500" />
-                </Button>
-              </Link>
-              <Link href="/messages">
-                <Button variant="ghost" size="icon">
-                  <MessageCircle className="h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/profile">
-                <Button variant="ghost" size="icon">
-                  <User className="h-5 w-5" />
-                </Button>
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <NavigationLayout>
       <main className="flex-1">
         <section className="container py-10">
           <h1 className="mb-6 text-2xl font-bold">Your Matches</h1>
@@ -66,7 +38,7 @@ export default function MatchesPage() {
           </div>
         </section>
       </main>
-    </div>
+    </NavigationLayout>
   )
 }
 

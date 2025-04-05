@@ -5,11 +5,12 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Heart, MessageCircle, Send, User } from "lucide-react"
+import { ArrowLeft, Send } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { getMatchById, messages as initialMessages } from "@/lib/data"
+import { NavigationLayout } from '@/components/NavigationLayout'
 
 export default function ChatPage({ params }: { params: { id: string } }) {
   const match = getMatchById(params.id)
@@ -18,7 +19,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newMessage.trim()) return
+    if (!newMessage.trim() || !match) return
 
     const message = {
       id: `msg-${Date.now()}`,
@@ -43,84 +44,73 @@ export default function ChatPage({ params }: { params: { id: string } }) {
   }
 
   if (!match) {
-    return <div>Match not found</div>
+    return (
+      <NavigationLayout>
+        <div className="p-4">
+          <h1 className="text-2xl font-bold text-red-500">Match not found</h1>
+        </div>
+      </NavigationLayout>
+    )
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <Link href="/messages" className="mr-4">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </Link>
-          <div className="flex items-center gap-2">
-            <div className="relative h-8 w-8">
-              <Image
-                src={match.image || "/placeholder.svg"}
-                alt={match.name}
-                fill
-                className="rounded-full object-cover"
-              />
-              {match.online && (
-                <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-500 ring-1 ring-white"></span>
-              )}
-            </div>
-            <span className="font-medium">{match.name}</span>
-          </div>
-          <div className="flex flex-1 items-center justify-end space-x-2">
-            <nav className="flex items-center space-x-2">
-              <Link href="/matches">
-                <Button variant="ghost" size="icon">
-                  <Heart className="h-5 w-5 text-pink-500" />
-                </Button>
-              </Link>
-              <Link href="/messages">
-                <Button variant="ghost" size="icon">
-                  <MessageCircle className="h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/profile">
-                <Button variant="ghost" size="icon">
-                  <User className="h-5 w-5" />
-                </Button>
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1 overflow-auto p-4">
-        <div className="mx-auto max-w-2xl space-y-4">
-          {messages.map((message) => {
-            const isUser = message.senderId === "user"
-            return (
-              <div key={message.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] rounded-lg px-4 py-2 ${isUser ? "bg-pink-500 text-white" : "bg-muted"}`}>
-                  <p>{message.text}</p>
-                  <p className={`text-right text-xs ${isUser ? "text-pink-100" : "text-muted-foreground"}`}>
-                    {new Date(message.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  </p>
-                </div>
+    <NavigationLayout>
+      <div className="flex min-h-screen flex-col">
+        <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container flex h-14 items-center">
+            <Link href="/messages" className="mr-4">
+              <Button variant="ghost" size="icon">
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
+            <div className="flex items-center gap-2">
+              <div className="relative h-8 w-8">
+                <Image
+                  src={match.image || "/placeholder.svg"}
+                  alt={match.name}
+                  fill
+                  className="rounded-full object-cover"
+                />
+                {match.online && (
+                  <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-500 ring-1 ring-white"></span>
+                )}
               </div>
-            )
-          })}
-        </div>
-      </main>
-      <footer className="border-t bg-background p-4">
-        <form onSubmit={handleSendMessage} className="mx-auto max-w-2xl flex gap-2">
-          <Input
-            placeholder="Type a message..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            className="flex-1"
-          />
-          <Button type="submit" size="icon" className="bg-pink-500 hover:bg-pink-600">
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
-      </footer>
-    </div>
+              <span className="font-medium">{match.name}</span>
+            </div>
+          </div>
+        </header>
+        <main className="flex-1 overflow-auto p-4">
+          <div className="mx-auto max-w-2xl space-y-4">
+            {messages.map((message) => {
+              const isUser = message.senderId === "user"
+              return (
+                <div key={message.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[80%] rounded-lg px-4 py-2 ${isUser ? "bg-pink-500 text-white" : "bg-muted"}`}>
+                    <p>{message.text}</p>
+                    <p className={`text-right text-xs ${isUser ? "text-pink-100" : "text-muted-foreground"}`}>
+                      {new Date(message.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </main>
+        <footer className="border-t bg-background p-4">
+          <form onSubmit={handleSendMessage} className="mx-auto max-w-2xl flex gap-2">
+            <Input
+              placeholder="Type a message..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              className="flex-1"
+            />
+            <Button type="submit" size="icon" className="bg-pink-500 hover:bg-pink-600">
+              <Send className="h-4 w-4" />
+            </Button>
+          </form>
+        </footer>
+      </div>
+    </NavigationLayout>
   )
 }
 
