@@ -3,61 +3,71 @@ import { ethers } from 'ethers';
 import { PROFILE_VERIFICATION_ABI, PROFILE_VERIFICATION_CONTRACT_ADDRESS } from '@/lib/contracts/config';
 
 export const useProfileVerification = () => {
-  const [contract, setContract] = useState<ethers.Contract | null>(null);
+  const [userAddress, setUserAddress] = useState<string>('');
   const [isVerified, setIsVerified] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const initContract = async () => {
+    const init = async () => {
       try {
         if (typeof window.ethereum !== 'undefined') {
+          // Get the provider and signer
           const provider = new ethers.BrowserProvider(window.ethereum);
           const signer = await provider.getSigner();
+          
+          // Get user's address
+          const address = await signer.getAddress();
+          setUserAddress(address);
+
+          // Create contract instance
           const contract = new ethers.Contract(
             PROFILE_VERIFICATION_CONTRACT_ADDRESS,
             PROFILE_VERIFICATION_ABI,
             signer
           );
-          setContract(contract);
 
-          try {
-            // Check if profile is verified using verifiedProfiles mapping
-            const userAddress = await signer.getAddress();
-            const profile = await contract.verifiedProfiles(userAddress);
-            setIsVerified(profile.isVerified);
-          } catch (verificationErr) {
-            console.error('Error checking verification:', verificationErr);
-            setIsVerified(false);
-          }
+          // Check if profile is verified
+          const verified = await contract.isProfileVerified(address);
+          setIsVerified(verified);
         }
       } catch (err) {
+        console.error('Error:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);
       }
     };
 
-    initContract();
+    init();
   }, []);
 
   const verifyProfile = async (message: string) => {
-    if (!contract) {
-      throw new Error('Contract not initialized');
-    }
-
     try {
       setLoading(true);
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error('MetaMask not installed');
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(
+        PROFILE_VERIFICATION_CONTRACT_ADDRESS,
+        PROFILE_VERIFICATION_ABI,
+        signer
+      );
+
+      // Call verifyProfile function
       const tx = await contract.verifyProfile(message);
       await tx.wait();
-      
-      // After verification, update the status
-      const signer = await (contract.runner as ethers.Signer).getAddress();
-      const profile = await contract.verifiedProfiles(signer);
-      setIsVerified(profile.isVerified);
-      
+
+      // Check updated verification status
+      const verified = await contract.isProfileVerified(userAddress);
+      setIsVerified(verified);
+
       return tx;
     } catch (err) {
+      console.error('Error:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
       throw err;
     } finally {
@@ -65,32 +75,11 @@ export const useProfileVerification = () => {
     }
   };
 
-  const getProfile = async (address: string) => {
-    if (!contract) {
-      throw new Error('Contract not initialized');
-    }
-
-    try {
-      // Use verifiedProfiles mapping instead of getProfile function
-      const profile = await contract.verifiedProfiles(address);
-      return {
-        userAddress: profile.userAddress,
-        message: profile.message,
-        timestamp: Number(profile.timestamp),
-        isVerified: profile.isVerified,
-      };
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      throw err;
-    }
-  };
-
   return {
-    contract,
+    userAddress,
     isVerified,
     loading,
     error,
-    verifyProfile,
-    getProfile,
+    verifyProfile
   };
 };

@@ -48,7 +48,7 @@ const userProfile = {
 export default function EditProfilePage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { verifyProfile, loading, error } = useProfileVerification();
+  const { verifyProfile, userAddress, loading, error } = useProfileVerification();
   const [formData, setFormData] = useState({
     name: userProfile.name,
     age: userProfile.age,
@@ -61,30 +61,35 @@ export default function EditProfilePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Create a verification message from the profile data
+      if (!userAddress) {
+        toast({
+          title: "Error",
+          description: "Please connect your wallet first",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Create a simple verification message
       const verificationMessage = JSON.stringify({
+        address: userAddress,
         name: formData.name,
-        age: formData.age,
-        location: formData.location,
-        timestamp: Date.now(),
+        timestamp: Date.now()
       });
 
-      // First verify with the contract
+      // Verify profile with the contract
       await verifyProfile(verificationMessage);
       
-      // Then proceed with Worldcoin verification
-    //   await signAndVerifyMessage();
-      
       toast({
-        title: "Profile Updated",
-        description: "Your profile has been successfully updated and verified!",
+        title: "Success",
+        description: "Your profile has been verified!",
       });
 
       router.push('/profile');
     } catch (err) {
       toast({
         title: "Error",
-        description: err instanceof Error ? err.message : "Failed to update profile",
+        description: err instanceof Error ? err.message : "Failed to verify profile",
         variant: "destructive",
       });
     }
@@ -116,21 +121,26 @@ export default function EditProfilePage() {
               Edit Profile
             </h1>
           </div>
-          <Button 
-            variant="default" 
-            size="sm"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="loading loading-spinner loading-sm"></span>
-            ) : (
-              <>
-                <PenToolIcon className="h-4 w-4 mr-1" />
-                Save & Verify
-              </>
-            )}
-          </Button>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500">
+              {userAddress ? `Connected: ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}` : 'Not connected'}
+            </span>
+            <Button 
+              variant="default" 
+              size="sm"
+              onClick={handleSubmit}
+              disabled={loading || !userAddress}
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                <>
+                  <PenToolIcon className="h-4 w-4 mr-1" />
+                  Verify Profile
+                </>
+              )}
+            </Button>
+          </div>
         </header>
 
         {error && (
