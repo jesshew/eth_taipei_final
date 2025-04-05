@@ -21,9 +21,15 @@ export const useProfileVerification = () => {
           );
           setContract(contract);
 
-          // Check if profile is verified
-          const verified = await contract.isProfileVerified(await signer.getAddress());
-          setIsVerified(verified);
+          try {
+            // Check if profile is verified using verifiedProfiles mapping
+            const userAddress = await signer.getAddress();
+            const profile = await contract.verifiedProfiles(userAddress);
+            setIsVerified(profile.isVerified);
+          } catch (verificationErr) {
+            console.error('Error checking verification:', verificationErr);
+            setIsVerified(false);
+          }
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -44,7 +50,12 @@ export const useProfileVerification = () => {
       setLoading(true);
       const tx = await contract.verifyProfile(message);
       await tx.wait();
-      setIsVerified(true);
+      
+      // After verification, update the status
+      const signer = await (contract.runner as ethers.Signer).getAddress();
+      const profile = await contract.verifiedProfiles(signer);
+      setIsVerified(profile.isVerified);
+      
       return tx;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -60,12 +71,13 @@ export const useProfileVerification = () => {
     }
 
     try {
-      const profile = await contract.getProfile(address);
+      // Use verifiedProfiles mapping instead of getProfile function
+      const profile = await contract.verifiedProfiles(address);
       return {
-        userAddress: profile[0],
-        message: profile[1],
-        timestamp: profile[2],
-        isVerified: profile[3],
+        userAddress: profile.userAddress,
+        message: profile.message,
+        timestamp: Number(profile.timestamp),
+        isVerified: profile.isVerified,
       };
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
