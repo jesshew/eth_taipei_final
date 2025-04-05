@@ -216,7 +216,9 @@ export const SwipePage: React.FC = () => {
           onClick={() => toast({
             title: "Filters",
             description: "Filter functionality will be available in the next version!",
-          })}
+          })
+        }
+        disabled={true}
         >
           Filters <ChevronDown className="ml-1 h-4 w-4" />
         </Button>
@@ -322,8 +324,7 @@ export const SwipePage: React.FC = () => {
           <div className="flex justify-center space-x-4 my-6">
             <div className="h-24 w-24 rounded-full border-4 border-white overflow-hidden">
               <img 
-                src="https://source.unsplash.com/random/300×300/?portrait" 
-                alt="Your profile" 
+                src='https://img.freepik.com/free-photo/beautiful-asian-girl-sitting-cafe-with-cup-coffee-drawing-digital-tablet-with-graphic-pen-d_1258-120146.jpg?t=st=1743866366~exp=1743869966~hmac=a96e953b960fd017d15f0c504601cdc28768467dca108b03a56df187b5045cda&w=826'
                 className="h-full w-full object-cover"
               />
             </div>

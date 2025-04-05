@@ -48,6 +48,21 @@ export default function ProfilePage() {
   return (
     <NavigationLayout>
       <div className="flex flex-col min-h-screen">
+        {/* Page Header */}
+        <header className="flex justify-between items-center p-4 bg-white">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-dating-purple to-dating-pink">
+            My Profile
+          </h1>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-gray-500"
+            onClick={() =>{}}
+            disabled={true}
+          >
+            <Edit2 className="h-4 w-4" />
+          </Button>
+        </header>
         {/* Profile Header */}
         <div className="relative h-[70vh] min-h-[500px]">
           <Image
@@ -75,14 +90,14 @@ export default function ProfilePage() {
           </div>
 
           {/* Edit Profile Button */}
-          <Button
+          {/* <Button
             size="icon"
             variant="ghost"
             className="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white transition-colors"
-            onClick={() => {/* TODO: Implement edit profile */}}
+            onClick={() => {/* TODO: Implement edit profile }
           >
             <Edit2 className="h-5 w-5" />
-          </Button>
+          </Button> */}
 
           {/* Profile Info */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
