@@ -81,7 +81,7 @@ export default function PurchasedFeaturesPage() {
             <CardContent className="p-4">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold">Your Premium Features</h3>
-                <Button variant="outline" size="sm" className="text-pink-600" onClick={() => router.push("/premium")}>
+                <Button variant="outline" size="sm" className="text-pink-600" onClick={() => toast({ description: "This feature is not implemented yet :d", variant: "default" })}>
                   Manage Subscription
                 </Button>
               </div>
