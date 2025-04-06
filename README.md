@@ -2,6 +2,14 @@
 
 Mini Amor is a revolutionary dating application built within the World App ecosystem that prioritizes authenticity and security through Web3 technology. By leveraging World ID for authentication, Mini Amor ensures that all users are real humans, creating a safer and more genuine dating environment.
 
+<div align="center">
+  <h1>📱 Scan this QR code in World App to open Mini Amor</h1>
+  <img src="public/QR.jpg" alt="Mini Amor QR Code" width="300"/>
+  <p><strong>⬆️ Open World App and scan this QR code to get started! ⬆️</strong></p>
+</div>
+
+---
+
 ### Key Screens
 | Authentication | Profile | Matching |
 |:---:|:---:|:---:|
