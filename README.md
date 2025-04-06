@@ -1,17 +1,6 @@
 # Mini Amor - Web3-Powered Dating Mini App
 
-![Mini Amor Logo](public/placeholder-logo.png)
-
 Mini Amor is a revolutionary dating application built within the World App ecosystem that prioritizes authenticity and security through Web3 technology. By leveraging World ID for authentication, Mini Amor ensures that all users are real humans, creating a safer and more genuine dating environment.
-
-## 📱 App Interface
-
-Here's what Mini Amor looks like in action:
-
-<div align="center">
-  <img src="public/images/screenshots/home-screen.png" alt="Home Screen" width="300"/>
-  <img src="public/images/screenshots/swipe-interface.png" alt="Swipe Interface" width="300"/>
-</div>
 
 ### Key Screens
 | Authentication | Profile | Matching |
@@ -110,6 +99,7 @@ ngrok http <local server link>
 2. Create a new mini app
 3. Copy the provided app ID
 4. Configure the app ID in your mini app's configuration page
+![setup](public/setup.jpg)
 
 #### 7. Configure Incognito Actions (Critical)
 Important configuration steps:
