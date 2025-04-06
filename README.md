@@ -105,14 +105,14 @@ ngrok http <local server link>
 Important configuration steps:
 - Create incognito actions with exact specified names (e.g., "verify-dating")
 - Enable unlimited verifications per user for testing purposes
-![settings](settings/setup.jpg)
+![settings](public/setup.jpg)
 
 #### 8. Launch Options
 
 **Local Development (via QR)**
 - Use the developer preview feature
 - Scan the QR code to launch your local version
-![QR](QRcode.jpg)
+![QR](public/QR.jpg)
 
 **Live Deployment**
 - Access the production version via mini app QR code
