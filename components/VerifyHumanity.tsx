@@ -10,8 +10,8 @@ import { useVerification } from '@/contexts/verification-context';
 
 // Constants for customization and reusability
 const APP_NAME = 'MINI AMOR';
-const TAGLINE = 'Dating, Reimagined.';
-const DESCRIPTION = 'Authentic connections between real humans';
+const TAGLINE = 'We’re here to bring back real dating ';
+const DESCRIPTION = 'Human, Honest, and Trustworthy.';
 const VALUE_PROPS = [
   {
     icon: UserCheck,
