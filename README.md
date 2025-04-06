@@ -152,7 +152,7 @@ We welcome contributions to Mini Amor! Please read our contributing guidelines b
 Mini Amor's architecture leverages Web3 technology and the World App ecosystem through several interconnected processes. Below we provide detailed technical diagrams that illustrate the core workflows powering our application.
 
 ### Verification & Authentication Flows
-![Verification Flow](public/VerificationID.jpeg)
+![Verification Flow](public/VerificationIDFlow.jpeg)
 The verification flow diagram illustrates the complete authentication process between the user, our VerifyHumanity component, MiniKit (WorldCoin), and our backend API. This sequence diagram shows exactly how proof of personhood is established through World ID, from the initial user click through to successful verification and navigation.
 
 ### Complete App User Journey
@@ -168,5 +168,5 @@ Discovery & Swiping: The matching system and communication flows
 The purchase sequence diagram details how payments are processed within Mini Amor using WorldCoin. It demonstrates the interaction between the user interface, payment processing functions, haptic feedback, and the MiniKit SDK to ensure secure, verifiable transactions.
 
 ### Profile Editing & Smart Contract Verification
-![Profile Editing & Smart Contract Verification](public/Sign&SmartContractVerification.jpeg)
+![Profile Editing & Smart Contract Verification](public/Sign&SmartContractVerificationFlow.jpeg)
 This diagram illustrates how user profile data is cryptographically signed and verified on-chain through the Flow blockchain. The sequence demonstrates the entire process from editing profile information through signature validation and smart contract interaction.
