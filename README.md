@@ -1,6 +1,6 @@
 # Mini Amor - Web3-Powered Dating Mini App
 
-![Mini Amor Logo](public/images/logo.png)
+![Mini Amor Logo](/images/logo.png)
 
 Mini Amor is a revolutionary dating application built within the World App ecosystem that prioritizes authenticity and security through Web3 technology. By leveraging World ID for authentication, Mini Amor ensures that all users are real humans, creating a safer and more genuine dating environment.
 
