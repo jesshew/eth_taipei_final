@@ -154,3 +154,26 @@ Mini Amor is designed to be a seamless part of the World App ecosystem:
 ## 👥 Contributing
 
 We welcome contributions to Mini Amor! Please read our contributing guidelines before submitting pull requests.
+
+## 📊 Technical Workflow Diagrams
+Mini Amor's architecture leverages Web3 technology and the World App ecosystem through several interconnected processes. Below we provide detailed technical diagrams that illustrate the core workflows powering our application.
+
+### Verification & Authentication Flows
+![Verification Flow](public/VerificationID.jpeg)
+The verification flow diagram illustrates the complete authentication process between the user, our VerifyHumanity component, MiniKit (WorldCoin), and our backend API. This sequence diagram shows exactly how proof of personhood is established through World ID, from the initial user click through to successful verification and navigation.
+
+### Complete App User Journey
+![Complete App User Journey](public/App_Workflow.jpeg)
+This comprehensive flowchart maps the entire user journey through Mini Amor, starting from app launch through verification, and branching into three core paths:
+
+Premium & Stickers: How users access and purchase premium features
+Profile Setup: The profile creation and on-chain verification process
+Discovery & Swiping: The matching system and communication flows
+
+### Premium Features Purchase Flow
+![Premium Features Purchase Flow](public/PurchaseFlow.png)
+The purchase sequence diagram details how payments are processed within Mini Amor using WorldCoin. It demonstrates the interaction between the user interface, payment processing functions, haptic feedback, and the MiniKit SDK to ensure secure, verifiable transactions.
+
+### Profile Editing & Smart Contract Verification
+![Profile Editing & Smart Contract Verification](public/Sign&SmartContractVerification.jpeg)
+This diagram illustrates how user profile data is cryptographically signed and verified on-chain through the Flow blockchain. The sequence demonstrates the entire process from editing profile information through signature validation and smart contract interaction.
