@@ -9,12 +9,6 @@ Mini Amor is a revolutionary dating application built within the World App ecosy
 </div>
 
 ---
-
-### Key Screens
-| Authentication | Profile | Matching | Payment
-|:---:|:---:|:---:|
-|![Auth Screen](public/verify.jpeg)|![Profile Screen](public/profile.jpeg)|![Matching Screen](public/images/sticker.jpeg)|![pay](public/pay.jpeg)| 
-
 ## 🌟 Key Features
 
 ### 🔐 Secure Authentication
