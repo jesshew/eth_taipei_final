@@ -4,7 +4,7 @@ Mini Amor is a revolutionary dating application built within the World App ecosy
 
 <div align="center">
   <h1>📱 Scan this QR code in World App to open Mini Amor</h1>
-  <img src="public/QR.jpg" alt="Mini Amor QR Code" width="400"/>
+  <img src="public/QR.jpg" alt="Mini Amor QR Code" width="600"/>
   <p><strong>⬆️ Open World App and scan this QR code to get started! ⬆️</strong></p>
 </div>
 
