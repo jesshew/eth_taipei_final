@@ -18,6 +18,7 @@ Mini Amor is a revolutionary dating application built within the World App ecosy
 
 ### 💝 Core Dating Features
 - **Profile Creation**: Build your unique dating profile
+- **Send Sticker Gifts: Send free or paid stickers to your match to show you your interest for them
 - **Swipe Interface**: Intuitive swipe mechanism to find potential matches
 - **Matching System**: Connect with users who share mutual interest
 - **Chat System**: Communicate with your matches securely
@@ -27,8 +28,6 @@ Mini Amor is a revolutionary dating application built within the World App ecosy
   - User Verification
   - Secure Payment Processing
   - Digital Signatures for enhanced security
-- **Multi-Network Support**: Foundation for cross-chain compatibility
-- **Profile Settings**: Customize your dating preferences and privacy settings
 
 ## 🛠️ Technical Stack
 
